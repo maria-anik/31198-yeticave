@@ -27,7 +27,7 @@ $user_avatar = 'img/user.jpg';
         <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
 
         <nav class="user-menu">
-          <?php if($is_auth): ?>
+          <?php if ($is_auth): ?>
             <div class="user-menu__image">
               <img src="<?=$user_avatar?>" width="40" height="40" alt="Пользователь">
             </div>
@@ -53,75 +53,103 @@ $user_avatar = 'img/user.jpg';
     <section class="promo">
         <h2 class="promo__title">Нужен стафф для катки?</h2>
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
+        <?php $promo__list = ['Доски и лыжи','Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное']; ?>
         <ul class="promo__list">
-            <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="all-lots.html">Доски и лыжи</a>
-            </li>
-            <li class="promo__item promo__item--attachment">
-                <a class="promo__link" href="all-lots.html">Крепления</a>
-            </li>
-            <li class="promo__item promo__item--boots">
-                <a class="promo__link" href="all-lots.html">Ботинки</a>
-            </li>
-            <li class="promo__item promo__item--clothing">
-                <a class="promo__link" href="all-lots.html">Одежда</a>
-            </li>
-            <li class="promo__item promo__item--tools">
-                <a class="promo__link" href="all-lots.html">Инструменты</a>
-            </li>
-            <li class="promo__item promo__item--other">
-                <a class="promo__link" href="all-lots.html">Разное</a>
-            </li>
+            <?php foreach ($promo__list as $item) {?>
+                <li class="promo__item promo__item--boards">
+                    <a class="promo__link" href="all-lots.html"><?=$item ?></a>
+                </li>
+            <?};?>
         </ul>
     </section>
     <section class="lots">
         <div class="lots__header">
             <h2>Открытые лоты</h2>
         </div>
+        <?php $lots__list = [
+            [
+                'title'=>'2014 Rossignol District Snowboard ',
+                'category'=>'Доски и лыжи',
+                'cost'=>'10999',
+                'link'=>'lot.html',
+                'img'=>'img/lot-1.jpg',
+                'img_alt'=>'Сноуборд'
+            ],
+            [
+                'title'=>'DC Ply Mens 2016/2017 Snowboard',
+                'category'=>'Доски и лыжи',
+                'cost'=>'159999',
+                'link'=>'lot.html',
+                'img'=>'img/lot-2.jpg',
+                'img_alt'=>'Сноуборд'
+            ],
+            [
+                'title'=>'Крепления Union Contact Pro 2015 года размер L/XL',
+                'category'=>'Крепления',
+                'cost'=>'8000',
+                'link'=>'lot.html',
+                'img'=>'img/lot-3.jpg',
+                'img_alt'=>'Крепления L/XL'
+            ],
+            [
+                'title'=>'Ботинки для сноуборда DC Mutiny Charocal',
+                'category'=>'Ботинки',
+                'cost'=>'10999',
+                'link'=>'lot.html',
+                'img'=>'img/lot-4.jpg',
+                'img_alt'=>'Ботинки для сноуборда'
+            ],
+            [
+                'title'=>'Куртка для сноуборда DC Mutiny Charocal',
+                'category'=>'Одежда',
+                'cost'=>'7500',
+                'link'=>'lot.html',
+                'img'=>'img/lot-5.jpg',
+                'img_alt'=>'Куртка для сноуборда'
+            ],
+            [
+                'title'=>'Маска Oakley Canopy',
+                'category'=>'Разное',
+                'cost'=>'5400',
+                'link'=>'lot.html',
+                'img'=>'img/lot-6.jpg',
+                'img_alt'=>'Маска для сноуборда'
+            ]
+        ]; ?>
         <ul class="lots__list">
-            <li class="lots__item lot">
-                <div class="lot__image">
-                    <img src="img/lot-1.jpg" width="350" height="260" alt="Сноуборд">
-                </div>
-                <div class="lot__info">
-                    <span class="lot__category">Доски и лыжи</span>
-                    <h3 class="lot__title"><a class="text-link" href="lot.html">2014 Rossignol District Snowboard</a></h3>
-                    <div class="lot__state">
-                        <div class="lot__rate">
-                            <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost">10 999<b class="rub">р</b></span>
-                        </div>
-                        <div class="lot__timer timer">
+            <?php foreach ($lots__list as $item) {?>
+                <li class="lots__item lot">
+                    <div class="lot__image">
+                        <img src="<?=$item['img']?>" width="350" height="260" alt="<?=$item['img_alt']?>">
+                    </div>
+                    <div class="lot__info">
+                        <span class="lot__category"><?=$item['category']?></span>
+                        <h3 class="lot__title"><a class="text-link" href="<?=$item['link']?>"><?=$item['title']?></a></h3>
+                        <div class="lot__state">
+                            <div class="lot__rate">
+                                <span class="lot__amount">Стартовая цена</span>
+                                <span class="lot__cost"><?=$item['cost']?><b class="rub">р</b></span>
+                            </div>
+                            <div class="lot__timer timer">
 
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            <?};?>
         </ul>
     </section>
 </main>
 
 <footer class="main-footer">
     <nav class="nav">
+        <?php $nav__list = ['Доски и лыжи','Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное']; ?>
         <ul class="nav__list container">
-            <li class="nav__item">
-                <a href="all-lots.html">Доски и лыжи</a>
-            </li>
-            <li class="nav__item">
-                <a href="all-lots.html">Крепления</a>
-            </li>
-            <li class="nav__item">
-                <a href="all-lots.html">Ботинки</a>
-            </li>
-            <li class="nav__item">
-                <a href="all-lots.html">Одежда</a>
-            </li>
-            <li class="nav__item">
-                <a href="all-lots.html">Инструменты</a>
-            </li>
-            <li class="nav__item">
-                <a href="all-lots.html">Разное</a>
-            </li>
+            <?php foreach ($nav__list as $item) {?>
+                <li class="nav__item">
+                    <a href="all-lots.html"><?=$item ?></a>
+                </li>
+            <?};?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
