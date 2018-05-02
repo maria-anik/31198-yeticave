@@ -3,17 +3,8 @@ $is_auth = (bool) rand(0, 1);
 
 $user_name = 'Константин';
 $user_avatar = 'img/user.jpg';
-?>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Главная</title>
-    <link href="css/normalize.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-</head>
-<body>
-<?php $nav_list = [
+
+$nav_list = [
     [
         'type' => 'boards',
         'title' => 'Доски и лыжи',
@@ -47,55 +38,72 @@ $user_avatar = 'img/user.jpg';
     ]
 ];
 $lots__list = [
-            [
-                'title' => '2014 Rossignol District Snowboard ',
-                'category' => 'Доски и лыжи',
-                'cost' => 10999,
-                'link' => 'lot.html',
-                'img' => 'img/lot-1.jpg',
-                'img_alt' => 'Сноуборд'
-            ],
-            [
-                'title' => 'DC Ply Mens 2016/2017 Snowboard',
-                'category' => 'Доски и лыжи',
-                'cost' => 159999,
-                'link' => 'lot.html',
-                'img' => 'img/lot-2.jpg',
-                'img_alt' => 'Сноуборд'
-            ],
-            [
-                'title' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-                'category' => 'Крепления',
-                'cost' => 8000,
-                'link' => 'lot.html',
-                'img' => 'img/lot-3.jpg',
-                'img_alt' => 'Крепления L/XL'
-            ],
-            [
-                'title' => 'Ботинки для сноуборда DC Mutiny Charocal',
-                'category' => 'Ботинки',
-                'cost' => 10999,
-                'link' => 'lot.html',
-                'img' => 'img/lot-4.jpg',
-                'img_alt' => 'Ботинки для сноуборда'
-            ],
-            [
-                'title' => 'Куртка для сноуборда DC Mutiny Charocal',
-                'category' => 'Одежда',
-                'cost' => 7500,
-                'link' => 'lot.html',
-                'img' => 'img/lot-5.jpg',
-                'img_alt' => 'Куртка для сноуборда'
-            ],
-            [
-                'title' => 'Маска Oakley Canopy',
-                'category' => 'Разное',
-                'cost' => 5400,
-                'link' => 'lot.html',
-                'img' => 'img/lot-6.jpg',
-                'img_alt' => 'Маска для сноуборда'
-            ]
-        ]; ?>
+    [
+        'title' => '2014 Rossignol District Snowboard ',
+        'category' => 'Доски и лыжи',
+        'cost' => 10999.01,
+        'link' => 'lot.html',
+        'img' => 'img/lot-1.jpg',
+        'img_alt' => 'Сноуборд'
+    ],
+    [
+        'title' => 'DC Ply Mens 2016/2017 Snowboard',
+        'category' => 'Доски и лыжи',
+        'cost' => 159999,
+        'link' => 'lot.html',
+        'img' => 'img/lot-2.jpg',
+        'img_alt' => 'Сноуборд'
+    ],
+    [
+        'title' => 'Крепления Union Contact Pro 2015 года размер L/XL',
+        'category' => 'Крепления',
+        'cost' => 8000,
+        'link' => 'lot.html',
+        'img' => 'img/lot-3.jpg',
+        'img_alt' => 'Крепления L/XL'
+    ],
+    [
+        'title' => 'Ботинки для сноуборда DC Mutiny Charocal',
+        'category' => 'Ботинки',
+        'cost' => 10999,
+        'link' => 'lot.html',
+        'img' => 'img/lot-4.jpg',
+        'img_alt' => 'Ботинки для сноуборда'
+    ],
+    [
+        'title' => 'Куртка для сноуборда DC Mutiny Charocal',
+        'category' => 'Одежда',
+        'cost' => 7500,
+        'link' => 'lot.html',
+        'img' => 'img/lot-5.jpg',
+        'img_alt' => 'Куртка для сноуборда'
+    ],
+    [
+        'title' => 'Маска Oakley Canopy',
+        'category' => 'Разное',
+        'cost' => 5400,
+        'link' => 'lot.html',
+        'img' => 'img/lot-6.jpg',
+        'img_alt' => 'Маска для сноуборда'
+    ]
+];
+
+function catalog_cost($price) {
+    $price= number_format($price, 0, ',', ' ')." <b class='rub'>р</b>";
+    return $price;
+}
+?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <link href="css/normalize.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<?php
+?>
 <header class="main-header">
     <div class="main-header__container container">
         <h1 class="visually-hidden">YetiCave</h1>
@@ -161,7 +169,7 @@ $lots__list = [
                         <div class="lot__state">
                             <div class="lot__rate">
                                 <span class="lot__amount">Стартовая цена</span>
-                                <span class="lot__cost"><?=$item['cost']?><b class="rub">р</b></span>
+                                <span class="lot__cost"><?=catalog_cost($item['cost'])?></span>
                             </div>
                             <div class="lot__timer timer">
                             </div>
