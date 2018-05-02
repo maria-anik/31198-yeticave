@@ -88,7 +88,7 @@ $lots__list = [
     ]
 ];
 
-function catalog_cost($price) {
+function lot_cost($price) {
     $price= number_format($price, 0, ',', ' ')." <b class='rub'>р</b>";
     return $price;
 }
@@ -169,7 +169,7 @@ function catalog_cost($price) {
                         <div class="lot__state">
                             <div class="lot__rate">
                                 <span class="lot__amount">Стартовая цена</span>
-                                <span class="lot__cost"><?=catalog_cost($item['cost'])?></span>
+                                <span class="lot__cost"><?=lot_cost($item['cost'])?></span>
                             </div>
                             <div class="lot__timer timer">
                             </div>
