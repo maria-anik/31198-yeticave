@@ -3,6 +3,95 @@ $is_auth = (bool) rand(0, 1);
 
 $user_name = 'Константин';
 $user_avatar = 'img/user.jpg';
+
+$nav_list = [
+    [
+        'type' => 'boards',
+        'title' => 'Доски и лыжи',
+        'link' => '#'
+    ],
+    [
+
+        'type' => 'attachment',
+        'title' => 'Крепления',
+        'link' => '#'
+    ],
+    [
+        'type' => 'boots',
+        'title' => 'Ботинки',
+        'link' => '#'
+    ],
+    [
+        'type' => 'clothing',
+        'title' => 'Одежда',
+        'link' => '#'
+    ],
+    [
+        'type' => 'tools',
+        'title' => 'Инструменты',
+        'link' => '#'
+    ],
+    [
+        'type' => 'other',
+        'title' => 'Разное',
+        'link' => '#'
+    ]
+];
+$lots__list = [
+    [
+        'title' => '2014 Rossignol District Snowboard ',
+        'category' => 'Доски и лыжи',
+        'cost' => 10999.01,
+        'link' => 'lot.html',
+        'img' => 'img/lot-1.jpg',
+        'img_alt' => 'Сноуборд'
+    ],
+    [
+        'title' => 'DC Ply Mens 2016/2017 Snowboard',
+        'category' => 'Доски и лыжи',
+        'cost' => 159999,
+        'link' => 'lot.html',
+        'img' => 'img/lot-2.jpg',
+        'img_alt' => 'Сноуборд'
+    ],
+    [
+        'title' => 'Крепления Union Contact Pro 2015 года размер L/XL',
+        'category' => 'Крепления',
+        'cost' => 8000,
+        'link' => 'lot.html',
+        'img' => 'img/lot-3.jpg',
+        'img_alt' => 'Крепления L/XL'
+    ],
+    [
+        'title' => 'Ботинки для сноуборда DC Mutiny Charocal',
+        'category' => 'Ботинки',
+        'cost' => 10999,
+        'link' => 'lot.html',
+        'img' => 'img/lot-4.jpg',
+        'img_alt' => 'Ботинки для сноуборда'
+    ],
+    [
+        'title' => 'Куртка для сноуборда DC Mutiny Charocal',
+        'category' => 'Одежда',
+        'cost' => 7500,
+        'link' => 'lot.html',
+        'img' => 'img/lot-5.jpg',
+        'img_alt' => 'Куртка для сноуборда'
+    ],
+    [
+        'title' => 'Маска Oakley Canopy',
+        'category' => 'Разное',
+        'cost' => 5400,
+        'link' => 'lot.html',
+        'img' => 'img/lot-6.jpg',
+        'img_alt' => 'Маска для сноуборда'
+    ]
+];
+
+function lot_cost($price) {
+    $price= number_format($price, 0, ',', ' ')." <b class='rub'>р</b>";
+    return $price;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -13,7 +102,8 @@ $user_avatar = 'img/user.jpg';
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-
+<?php
+?>
 <header class="main-header">
     <div class="main-header__container container">
         <h1 class="visually-hidden">YetiCave</h1>
@@ -53,11 +143,11 @@ $user_avatar = 'img/user.jpg';
     <section class="promo">
         <h2 class="promo__title">Нужен стафф для катки?</h2>
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
-        <?php $promo__list = ['Доски и лыжи','Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное']; ?>
+
         <ul class="promo__list">
-            <?php foreach ($promo__list as $item) {?>
-                <li class="promo__item promo__item--boards">
-                    <a class="promo__link" href="all-lots.html"><?=$item ?></a>
+            <?php foreach ($nav_list as $item) {?>
+                <li class="promo__item  promo__item--<?=$item['type'] ?>">
+                    <a class="promo__link" href="<?=$item['link'] ?>"><?=$item['title'] ?></a>
                 </li>
             <?};?>
         </ul>
@@ -66,56 +156,7 @@ $user_avatar = 'img/user.jpg';
         <div class="lots__header">
             <h2>Открытые лоты</h2>
         </div>
-        <?php $lots__list = [
-            [
-                'title'=>'2014 Rossignol District Snowboard ',
-                'category'=>'Доски и лыжи',
-                'cost'=>'10999',
-                'link'=>'lot.html',
-                'img'=>'img/lot-1.jpg',
-                'img_alt'=>'Сноуборд'
-            ],
-            [
-                'title'=>'DC Ply Mens 2016/2017 Snowboard',
-                'category'=>'Доски и лыжи',
-                'cost'=>'159999',
-                'link'=>'lot.html',
-                'img'=>'img/lot-2.jpg',
-                'img_alt'=>'Сноуборд'
-            ],
-            [
-                'title'=>'Крепления Union Contact Pro 2015 года размер L/XL',
-                'category'=>'Крепления',
-                'cost'=>'8000',
-                'link'=>'lot.html',
-                'img'=>'img/lot-3.jpg',
-                'img_alt'=>'Крепления L/XL'
-            ],
-            [
-                'title'=>'Ботинки для сноуборда DC Mutiny Charocal',
-                'category'=>'Ботинки',
-                'cost'=>'10999',
-                'link'=>'lot.html',
-                'img'=>'img/lot-4.jpg',
-                'img_alt'=>'Ботинки для сноуборда'
-            ],
-            [
-                'title'=>'Куртка для сноуборда DC Mutiny Charocal',
-                'category'=>'Одежда',
-                'cost'=>'7500',
-                'link'=>'lot.html',
-                'img'=>'img/lot-5.jpg',
-                'img_alt'=>'Куртка для сноуборда'
-            ],
-            [
-                'title'=>'Маска Oakley Canopy',
-                'category'=>'Разное',
-                'cost'=>'5400',
-                'link'=>'lot.html',
-                'img'=>'img/lot-6.jpg',
-                'img_alt'=>'Маска для сноуборда'
-            ]
-        ]; ?>
+
         <ul class="lots__list">
             <?php foreach ($lots__list as $item) {?>
                 <li class="lots__item lot">
@@ -128,10 +169,9 @@ $user_avatar = 'img/user.jpg';
                         <div class="lot__state">
                             <div class="lot__rate">
                                 <span class="lot__amount">Стартовая цена</span>
-                                <span class="lot__cost"><?=$item['cost']?><b class="rub">р</b></span>
+                                <span class="lot__cost"><?=lot_cost($item['cost'])?></span>
                             </div>
                             <div class="lot__timer timer">
-
                             </div>
                         </div>
                     </div>
@@ -143,11 +183,10 @@ $user_avatar = 'img/user.jpg';
 
 <footer class="main-footer">
     <nav class="nav">
-        <?php $nav__list = ['Доски и лыжи','Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное']; ?>
         <ul class="nav__list container">
-            <?php foreach ($nav__list as $item) {?>
+            <?php foreach ($nav_list as $item) {?>
                 <li class="nav__item">
-                    <a href="all-lots.html"><?=$item ?></a>
+                    <a href="<?=$item['link'] ?>"><?=$item['title'] ?></a>
                 </li>
             <?};?>
         </ul>
