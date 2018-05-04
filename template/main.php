@@ -17,7 +17,9 @@
         </div>
 
         <ul class="lots__list">
-            <?= $lot_content?>
+            <?php foreach ($lots_list as $lot) { ?>
+                <?= renderTemplate('lot', ['lot' => $lot])?>
+            <?php }?>
         </ul>
     </section>
 </div>
