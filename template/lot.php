@@ -1,5 +1,4 @@
-<?php
-foreach ($lots_list as $lot) { ?>
+
     <li class="lots__item lot">
         <div class="lot__image">
             <img src="<?=$lot['img']?>" width="350" height="260" alt="<?=$lot['img_alt']?>">
@@ -13,8 +12,8 @@ foreach ($lots_list as $lot) { ?>
                     <span class="lot__cost"><?= lot_cost($lot['cost']) ?> <b class='rub'>р</b></span>
                 </div>
                 <div class="lot__timer timer">
+                    <?=lot_time()?>
                 </div>
             </div>
         </div>
     </li>
-<?}?>

@@ -5,7 +5,7 @@
  * @return string
  */
 function lot_cost($price) {
-    return number_format($price, 0, ',', ' ');
+    return number_format($price, 0, ",", " ");
 }
 
 /**
@@ -24,4 +24,25 @@ function renderTemplate($file_name, $params_array) {
         return ob_get_clean() ;
     }
 }
+
+
+/**
+ * Вычисляет сколько времени осталось до продажи лота
+ * @return string
+ */
+function lot_time() {
+    date_default_timezone_set("Europe/Moscow");
+    setlocale(LC_ALL, "ru_RU");
+
+    $tomorrow = strtotime("tomorrow");
+    $time_wait = $tomorrow - time();
+
+    $hours = floor($time_wait / 3600);
+    $minutes = floor(($time_wait % 3600) / 60);
+    $seconds = ($time_wait - $hours*3600 - $minutes*60)  % 86400;
+
+    $time_wait_string = $hours.":".$minutes.":". $seconds;
+    return $time_wait_string;
+}
+
 ?>

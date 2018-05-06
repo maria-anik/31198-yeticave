@@ -3,9 +3,17 @@
 require_once('data.php');
 require_once('functions.php');
 
-$lot_content = renderTemplate('lot', ['lots_list' => $lots_list]);
-$search_content = renderTemplate('search', ['lot_content' => $lot_content, 'categories' => $categories]);
-$main_content = renderTemplate('main', ['lot_content' => $lot_content, 'categories' => $categories]);
+$search_content = renderTemplate('search',
+    [
+        'categories' => $categories,
+        'lots_list' => $lots_list
+    ]);
+
+$main_content = renderTemplate('main',
+    [
+        'categories' => $categories,
+        'lots_list' => $lots_list
+    ]);
 
 $layout_content = renderTemplate('layout',
     [
@@ -18,5 +26,6 @@ $layout_content = renderTemplate('layout',
     ]);
 
 print($layout_content);
+
 ?>
 
