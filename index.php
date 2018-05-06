@@ -26,5 +26,6 @@ $layout_content = renderTemplate('layout',
     ]);
 
 print($layout_content);
+
 ?>
 
