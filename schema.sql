@@ -1,4 +1,4 @@
-create database yeticave
+create database if not exists  yeticave
   default character set utf8
   default collate utf8_general_ci;
 
@@ -7,8 +7,8 @@ use yeticave;
 create table lots_list (
   id int auto_increment primary key,
   title char(128),
-  category tinyint,
-  cost double,
+  category tinyint unsigned,
+  cost float,
   link char(128),
   img char(128),
   img_alt char(128)
@@ -130,45 +130,45 @@ insert into user_list set
 create table bet_list (
   id int auto_increment primary key,
   lot int,
-  user_name int,
+  user_id int,
   price int,
   ts char(128)
 );
 
 insert into bet_list set
   lot = 1,
-  user_name = 1,
+  user_id = 1,
   price = '11500',
   ts = '07.05.2018 20:40:59';
 
 insert into bet_list set
   lot = 1,
-  user_name = 2,
+  user_id = 2,
   price = '11000',
   ts = '07.05.2018 21:00:59';
 
 insert into bet_list set
   lot = 1,
-  user_name = 3,
+  user_id = 3,
   price = '10500',
   ts = '07.05.2018 21:20:59';
 
 insert into bet_list set
   lot = 1,
-  user_name = 4,
+  user_id = 4,
   price = '10000',
   ts = '07.05.2018 21:40:59';
 
 insert into bet_list set
   lot = 2,
-  user_name = 1,
+  user_id = 1,
   price = '10500',
   ts = '04.05.2018 20:40:59';
 
 
 insert into bet_list set
   lot = 4,
-  user_name = 1,
+  user_id = 1,
   price = '4500',
   ts = '04.05.2018 20:40:59';
 
@@ -183,10 +183,10 @@ select  l.title, c.title, cost, img from lots_list l join categories c on l.cate
 select  l.title, c.title, cost, img from lots_list l join categories c on l.category=c.id where l.title like '%для%';
 
 /*Запрос для поиска ставок конкретного человека*/
-select  us.name, l.title, c.title, price, img , ts from lots_list l join bet_list b on l.id=b.lot  join user_list us on b.user_name=us.id  join categories c on l.category=c.id  where us.name = 'Иван';
+select  us.name, l.title, c.title, price, img , ts from lots_list l join bet_list b on l.id=b.lot  join user_list us on b.user_id=us.id  join categories c on l.category=c.id  where us.name = 'Иван';
 
 /*Запрос для поиска ставок конкретного лота*/
-select  us.name, l.title, c.title, price, img , ts from lots_list l join bet_list b on l.id=b.lot  join user_list us on b.user_name=us.id  join categories c on l.category=c.id  where l.title = '2014 Rossignol District Snowboard';
+select  us.name, l.title, c.title, price, img , ts from lots_list l join bet_list b on l.id=b.lot  join user_list us on b.user_id=us.id  join categories c on l.category=c.id  where l.title = '2014 Rossignol District Snowboard';
 
 /*Запрос для поиска ставок конкретного лота*/
-select  us.name, l.title, c.title, price, img , ts from lots_list l join bet_list b on l.id=b.lot  join user_list us on b.user_name=us.id  join categories c on l.category=c.id;
+select  us.name, l.title, c.title, price, img , ts from lots_list l join bet_list b on l.id=b.lot  join user_list us on b.user_id=us.id  join categories c on l.category=c.id;
