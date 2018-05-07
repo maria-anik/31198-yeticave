@@ -31,8 +31,8 @@ function renderTemplate($file_name, $params_array) {
  * @param date string - дата до конца продажи лота
  * @return string
  */
-function lot_time($date) {
-    $tomorrow = strtotime('tomorrow');
+function lot_time($date = 'tomorrow') {
+    $tomorrow = strtotime($date);
     $time_wait = $tomorrow - time();
 
     $hours = floor($time_wait / 3600);
