@@ -32,26 +32,27 @@ INSERT INTO bet_list (lot_id, user_id, price, ts)
          (4, 1, 4500, '2018-05-04 20:40:59');
 
 
+DROP DATABASE IF EXISTS yeticave;
 
 
 SELECT title, cost FROM lots_list;
 SELECT category, title FROM categories;
 
 /*Запрос для поиска всех лотов с выводом названия категории из таблицы категорий*/
-SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category=c.id;
+SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id;
 /*Запрос для поиска всех лотов в указанной категории*/
-SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category=c.id WHERE c.title='Доски и лыжи';
+SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE c.title='Доски и лыжи';
 /*Запрос для поиска по подстроке названия лота*/
-SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category=c.id WHERE l.title like '%для%';
+SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE l.title like '%для%';
 
 /*Запрос для поиска ставок конкретного человека*/
-SELECT  us.name, l.title, c.title, price, img , ts FROM lots_list l JOIN bet_list b ON l.id=b.lot  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category=c.id  WHERE us.name = 'Иван';
+SELECT  us.name, l.title, c.title, price, img , ts FROM lots_list l JOIN bet_list b ON l.id=b.lot_id  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category_id=c.id  WHERE us.name = 'Иван';
 
 /*Запрос для поиска ставок конкретного лота*/
-SELECT  us.name, l.title, c.title, price, img , ts FROM lots_list l JOIN bet_list b ON l.id=b.lot  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category=c.id  WHERE l.title = '2014 Rossignol District Snowboard';
+SELECT  us.name, l.title, c.title, price, img , ts FROM lots_list l JOIN bet_list b ON l.id=b.lot_id  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category_id=c.id  WHERE l.title = '2014 Rossignol District Snowboard';
 
 /*Запрос для поиска ставок конкретного лота*/
-SELECT  us.name, l.title, c.title, price, img , ts FROM lots_list l JOIN bet_list b ON l.id=b.lot  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category=c.id;
+SELECT  us.name, l.title, c.title, price, img , ts FROM lots_list l JOIN bet_list b ON l.id=b.lot_id  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category_id=c.id;
 
 /*отсортировать лоты в порядке создания и вывести еще открытые лоты */
 select title, cost, img, date_create, date_end, now()  from lots_list order by date_create where CONVERT(datetime, date_end, 121) > now();
@@ -63,7 +64,9 @@ select count(*) from bet_list where lot_id=1;
 /*обновить название лота по id*/
 UPDATE lots_list SET title='2018 Rossignol District Snowboard' WHERE id=1;
 
-/*получить список самых свежих ставок для лота по его идентификатору ???????????*/
-SELECT name, price, l.title, ts from bet_list b JOIN user_list us on b.user_id=us.id JOIN lots_list l on b.lot_id=l.id where lot_id=1 ORDER BY ts DESC;
 
-SELECT title, cost, img, date_create, count(b.lot) as cout_bet FROM lots_list l GROUP BY bet_list b ORDER BY cost;
+/*получить список самых свежих ставок для лота по его идентификатору;*/
+
+SELECT lot_id, price, ts FROM bet_list WHERE lot_id=1 ORDER BY ts;
+
+/*получить самые новые, открытые лоты. Каждый лот должен включать название, стартовую цену, ссылку на изображение, цену, количество ставок, название категории;*/

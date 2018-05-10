@@ -6,29 +6,34 @@ use yeticave;
 
 CREATE TABLE lots_list (
   id int auto_increment PRIMARY KEY,
-  title char(128),
-  category_id tinyint unsigned,
+  title varchar(255),
+  category_id int unsigned,
   cost float,
-  link char(128),
-  img char(128),
-  img_alt char(128),
+  link varchar(255),
+  img varchar(255),
+  img_alt varchar(255),
   date_create DATETIME,
   date_end DATETIME
 );
 
+CREATE INDEX lot_title_key ON lots_list (title);
+CREATE INDEX lot_date_create_key ON lots_list (date_create);
+CREATE INDEX lot_date_end_key ON lots_list (date_end);
+
 CREATE TABLE categories (
   id int auto_increment PRIMARY KEY,
-  category char(128),
-  title char(128)
+  category varchar(255),
+  title varchar(255)
 );
+CREATE INDEX category_key ON categories (category);
 
 
 CREATE TABLE user_list (
   id int auto_increment PRIMARY KEY,
-  name char(128),
-  login char(128),
-  email char(128),
-  password char(128)
+  name varchar(255),
+  login varchar(255),
+  email varchar(255),
+  password varchar(255)
 );
 
 
@@ -40,6 +45,7 @@ CREATE TABLE bet_list (
   price int,
   ts DATETIME
 );
+CREATE INDEX bet_ts_key ON bet_list (ts);
 
 
 

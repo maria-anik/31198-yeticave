@@ -4,6 +4,13 @@ require_once('config.php');
 require_once('data.php');
 require_once('functions.php');
 
+$con = mysqli_connect("localhost", "root", "", "yeticave");
+mysqli_set_charset($con, "utf8");
+$sql = "SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE c.title='Доски и лыжи';";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+
 $search_content = renderTemplate('search',
     [
         'categories' => $categories,
