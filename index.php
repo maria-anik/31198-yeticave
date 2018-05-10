@@ -6,17 +6,17 @@ require_once('functions.php');
 
 $con = mysqli_connect("localhost", "root", "", "yeticave");
 mysqli_set_charset($con, "utf8");
-$sql = "SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE c.title='Доски и лыжи';";
-$result = mysqli_query($con, $sql);
-$row = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+/*$sql = "SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE c.title='Доски и лыжи';";*/
 
-$search_content = renderTemplate('search',
-    [
-        'categories' => $categories,
-        'lots_list' => $lots_list,
-        'search_word' => 'Union'
-    ]);
+$sql_category= "SELECT category, title FROM categories;";
+$result = mysqli_query($con, $sql_category);
+$categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+$index_lot = "SELECT  l.title , c.title as category_name, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id LIMIT 6;";
+$result_search = mysqli_query($con, $index_lot);
+$lots_list = mysqli_fetch_all($result_search, MYSQLI_ASSOC);
+
 
 $all_lots = renderTemplate('all_lots',
     [
@@ -24,8 +24,6 @@ $all_lots = renderTemplate('all_lots',
         'lots_list' => $lots_list,
         'search_category' => 'Доски и лыжи'
     ]);
-
-
 
 $main_content = renderTemplate('main',
     [

@@ -4,7 +4,7 @@
             <img src="<?=$lot['img']?>" width="350" height="260" alt="<?=$lot['img_alt']?>">
         </div>
         <div class="lot__info">
-            <span class="lot__category"><?=htmlspecialchars($lot['category'])?></span>
+            <a href="search_category.php?category=<?=$lot['category_name']?>" class="lot__category"><?=htmlspecialchars($lot['category_name'])?></span>
             <h3 class="lot__title"><a class="text-link" href="<?=$lot['link']?>"><?=htmlspecialchars($lot['title'])?></a></h3>
             <div class="lot__state">
                 <div class="lot__rate">

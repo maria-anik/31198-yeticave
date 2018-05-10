@@ -10,7 +10,7 @@
 
 <div class="container">
   <section class="lots">
-    <h2>Результаты поиска по запросу «<span><?= $search_word?></span>»</h2>
+    <h2>Все лоты в категории «<span><?= $search_category ?></span>»</h2>
     <ul class="lots__list">
         <?php foreach ($lots_list as $lot) { ?>
             <?= renderTemplate('lot', ['lot' => $lot])?>

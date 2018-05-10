@@ -4,3 +4,7 @@
 
     define('hour',3600);
     define('day',86400);
+
+    const db = 'yeticave';
+    const password = '';
+    const login = 'root';
