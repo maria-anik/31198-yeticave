@@ -2,7 +2,7 @@
     <ul class="nav__list container">
       <?php foreach ($categories as $category) {?>
         <li class="nav__item">
-          <a href="search_category.php?category=<?= $category['title']?>"><?= $category['title'] ?></a>
+          <a href="category.php?category=<?= $category['category']?>"><?= $category['title'] ?></a>
         </li>
       <?};?>
     </ul>

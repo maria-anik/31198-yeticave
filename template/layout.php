@@ -14,19 +14,19 @@
         <a class="main-header__logo" href="index.php">
             <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
         </a>
-        <form class="main-header__search" method="get" action="/search.php">
+        <form class="main-header__search" method="post" action="/search.php">
             <input type="search" name="search" placeholder="Поиск лота">
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
-        <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
+        <a class="main-header__add-lot button" href="/add-lot.php">Добавить лот</a>
 
         <nav class="user-menu">
           <?php if ($is_auth): ?>
             <div class="user-menu__image">
-              <img src="<?= $user_avatar ?>" width="40" height="40" alt="Пользователь">
+              <a href="user_lot.php"><img src="<?= $user_avatar ?>" width="40" height="40" alt="Пользователь"></a>
             </div>
             <div class="user-menu__logged">
-              <p><?= $user_name ?></p>
+              <a href="user_lot.php"><p><?= $user_name ?></p></a>
               <a href="login.html">Выйти</a>
             </div>
           <?php else: ?>
@@ -52,7 +52,7 @@
         <ul class="nav__list container">
             <?php foreach ($categories as $category) {?>
                 <li class="nav__item">
-                    <a href="<?= $category['category'] ?>"><?= $category['title'] ?></a>
+                    <a href="/<?= $category['category'] ?>"><?= $category['title'] ?></a>
                 </li>
             <?};?>
         </ul>

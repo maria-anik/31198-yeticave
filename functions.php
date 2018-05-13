@@ -41,6 +41,14 @@ function lot_time($date = 'tomorrow') {
 
     $time_wait_string = $hours . ':' . $minutes. ':'. $seconds;
     return $time_wait_string;
+
+
+    /*
+        $BirthDay = 1177963200; // 1.05.2007 - предположим, что ДР тогда.
+        $ToDay = time(); // текущее время
+        $ToBirth = $BirthDay - $ToDay; // разница в секундах
+        echo $ToBirth/86400; // 11 дней осталось до днюхи
+    */
 }
 
 
