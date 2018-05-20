@@ -1,7 +1,13 @@
 <?php
     date_default_timezone_set("Europe/Moscow");
     setlocale(LC_ALL, "ru_RU");
+    session_start();
 
+
+    ini_set('session.cookie_lifetime', 86400);
+    ini_set('session.gc_maxlifetime', 86400);
+
+    define("minute", 60);
     define("hour", 3600);
     define("day", 86400);
 
@@ -9,3 +15,5 @@
     define("DB", "yeticave");
     define("LOGIN", "root");
     define("PASSWORD", "");
+
+    $front = false;

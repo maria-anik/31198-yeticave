@@ -1,13 +1,3 @@
-<nav class="nav">
-    <ul class="nav__list container">
-      <?php foreach ($categories as $category) {?>
-        <li class="nav__item">
-          <a href="category.php?category=<?= $category['category']?>"><?= $category['title'] ?></a>
-        </li>
-      <?};?>
-    </ul>
-</nav>
-
 <div class="container">
   <section class="lots">
     <h2>Результаты поиска по запросу «<span><?= $search_word?></span>»</h2>
@@ -17,7 +7,7 @@
                     <?= renderTemplate('lot', ['lot' => $lot]) ?>
             <?php }; ?>
         </ul>
-        <?php  if (count( $lots_list)>6) :?>
+        <?php  if (count( $lots_list)>9) :?>
             <ul class="pagination-list">
                 <li class="pagination-item pagination-item-prev"><a>Назад</a></li>
                 <li class="pagination-item pagination-item-active"><a>1</a></li>

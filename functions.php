@@ -32,23 +32,79 @@ function renderTemplate($file_name, $params_array) {
  * @return string
  */
 function lot_time($date = 'tomorrow') {
-    $tomorrow = strtotime($date);
-    $time_wait = $tomorrow - time();
+    $date_end = strtotime($date);
+    $time_wait = $date_end - time();
 
-    $hours = floor($time_wait / 3600);
-    $minutes = floor(($time_wait % 3600) / 60);
-    $seconds = ($time_wait - $hours*3600 - $minutes*60)  % 86400;
+    $hours = floor($time_wait / hour);
+    $minutes = floor(($time_wait % hour) / minute);
+    $seconds = ($time_wait - $hours*hour - $minutes*minute)  % day;
+
+    $time_wait_string = $hours . ':' . $minutes. ':'. $seconds /*date("H:i:s", $time_wait)*/;
+    return $time_wait_string;
+}
+
+/**
+ * Вычисляет сколько времени осталось до продажи лота
+ * @param date string - дата до конца продажи лота
+ * @return string
+ */
+function lot_time_string ($date = 'tomorrow') {
+    $date_end = strtotime($date);
+    $time_wait = $date_end - time();
+
+    $hours = floor($time_wait / hour);
+    $minutes = floor(($time_wait % hour) / minute);
+    $seconds = ($time_wait - $hours*hour - $minutes*minute)  % day;
 
     $time_wait_string = $hours . ':' . $minutes. ':'. $seconds;
     return $time_wait_string;
-
-
-    /*
-        $BirthDay = 1177963200; // 1.05.2007 - предположим, что ДР тогда.
-        $ToDay = time(); // текущее время
-        $ToBirth = $BirthDay - $ToDay; // разница в секундах
-        echo $ToBirth/86400; // 11 дней осталось до днюхи
-    */
 }
 
 
+/**
+ * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
+ *
+ * @param $link mysqli Ресурс соединения
+ * @param $sql string SQL запрос с плейсхолдерами вместо значений
+ * @param array $data Данные для вставки на место плейсхолдеров
+ *
+ * @return mysqli_stmt Подготовленное выражение
+ */
+function db_get_prepare_stmt($link, $sql, $data = []) {
+    $stmt = mysqli_prepare($link, $sql);
+
+    if ($data) {
+        $types = '';
+        $stmt_data = [];
+
+        foreach ($data as $value) {
+            $type = null;
+
+            if (is_int($value)) {
+                $type = 'i';
+            }
+            else if (is_string($value)) {
+                $type = 's';
+            }
+            else if (is_double($value)) {
+                $type = 'd';
+            }
+
+            if ($type) {
+                $types .= $type;
+                $stmt_data[] = $value;
+            }
+        }
+
+        $values = array_merge([$stmt, $types], $stmt_data);
+
+        $func = 'mysqli_stmt_bind_param';
+        $func(...$values);
+    }
+
+    return $stmt;
+}
+
+function show_error(&$content, $error) {
+    $content = include_template('error.php', ['error' => $error]);
+}

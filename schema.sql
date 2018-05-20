@@ -8,8 +8,10 @@ CREATE TABLE lots_list (
   id int auto_increment PRIMARY KEY,
   title varchar(255),
   category_id int unsigned,
+  description text,
+  user_id int unsigned,
   cost float,
-  link varchar(255),
+  step int unsigned,
   img varchar(255),
   img_alt varchar(255),
   date_create DATETIME,
@@ -19,6 +21,8 @@ CREATE TABLE lots_list (
 CREATE INDEX lot_title_key ON lots_list (title);
 CREATE INDEX lot_date_create_key ON lots_list (date_create);
 CREATE INDEX lot_date_end_key ON lots_list (date_end);
+CREATE INDEX lot_cat_id ON lots_list (category_id);
+CREATE INDEX lot_user_id ON lots_list (user_id);
 
 CREATE TABLE categories (
   id int auto_increment PRIMARY KEY,
@@ -31,10 +35,13 @@ CREATE INDEX category_key ON categories (category);
 CREATE TABLE user_list (
   id int auto_increment PRIMARY KEY,
   name varchar(255),
-  login varchar(255),
   email varchar(255),
-  password varchar(255)
+  about text,
+  password varchar(255),
+  img  varchar(255)
 );
+CREATE INDEX user_pass ON user_list (password);
+CREATE INDEX user_email ON user_list (email);
 
 
 
@@ -46,6 +53,8 @@ CREATE TABLE bet_list (
   ts DATETIME
 );
 CREATE INDEX bet_ts_key ON bet_list (ts);
+CREATE INDEX bet_lot_id ON bet_list (lot_id);
+CREATE INDEX bet_user_id ON bet_list (user_id);
 
 
 
