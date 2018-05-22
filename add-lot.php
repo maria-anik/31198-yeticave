@@ -4,8 +4,6 @@
     require_once("config.php");
     require_once("data.php");
     require_once("db.php");
-    $front = false;
-
 
     if ($con) {
         $sql_category= "SELECT id, category, title FROM categories;";
@@ -15,11 +13,12 @@
 
         $errors = [];
         $form = [];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $form = $_POST['add_lot'];
 
 
-            if (isset($_FILES['lot-img']['name'])) {
+            if (!empty($_FILES['lot-img']['name'])) {
                 $tmp_name = $_FILES['lot-img']['tmp_name'];
                 $path = $_FILES['lot-img']['name'];
 
@@ -28,61 +27,60 @@
                 if ($file_type !== "image/jpeg") {
                     $errors['file'] = 'Загрузите картинку в формате JPEG';
                 }
-                else {
-                    if (count($errors)==0) {
-                        move_uploaded_file($tmp_name, 'lot_img/' . $path);
-                        $form['path'] = 'lot_img/' . $path;
-                        $form['img_alt'] = $path;
-                    }
-                }
             }
             else {
                 $errors['file'] = 'Вы не загрузили файл';
             };
 
             foreach ($form as $key => $value) {
-                if ($key == "lot-name") {
-                    if ($value=="") {
-                        $errors[$key] = 'Введите наименование лота';
-                    }
-                }
-                elseif ($key == "category") {
-                    if ($value=="0") {
-                        $errors[$key] = 'Введите категорию';
-                    }
-                }
-                elseif ($key == "message") {
-                    if ($value=="") {
-                        $errors[$key] = 'Напишите описание лота';
-                    }
-                }
-                elseif ($key == "lot-rate") {
-                    if ($value=="") {
-                        $errors[$key] = 'Введите начальную цену';
-                    }
-                    elseif ((int)$value<0) {
-                        $errors[$key] = 'Начальная цена должна быть больше нуля';
-                    }
-                }
-                elseif ($key == "lot-step") {
-                    if ($value=="") {
-                        $errors[$key] = 'Введите шаг ставки';
-                    }
-                    elseif ( ((int) $value<0) && is_int($value) ) {
-                        $errors[$key] = 'Шаг ставки должен быть целым числом и  больше нуля';
-                    }
-                }
-                elseif ($key == "lot-date") {
-                    if ($value=="") {
-                        $errors[$key] = 'Введите дату завершения торгов';
-                    }
-                    elseif ( (int) (strtotime($value) - time())<day ) {
-                        $errors[$key] = 'Дата завершения должна быть больше текущей даты хотя бы на один день';
-                    }
+                switch ($key) {
+                    case "lot-name" :
+                        if (!isset($value)) {
+                            $errors[$key] = 'Введите наименование лота';
+                        };
+                        break;
+                    case "category" :
+                        if ($value === "0") {
+                            $errors[$key] = 'Введите категорию';
+                        };
+                        break;
+                    case "message" :
+                        if (!isset($value)) {
+                            $errors[$key] = 'Напишите описание лота';
+                        };
+                        break;
+                    case "lot-rate" :
+                        if ($value === "") {
+                            $errors[$key] = 'Введите начальную цену';
+                        }
+                        elseif ((int)$value<0) {
+                            $errors[$key] = 'Начальная цена должна быть больше нуля';
+                        };
+                        break;
+                    case "lot-step" :
+                        if ($value === "") {
+                            $errors[$key] = 'Введите шаг ставки';
+                        }
+                        elseif ( ((int) $value<0) && is_int($value) ) {
+                            $errors[$key] = 'Шаг ставки должен быть целым числом и  больше нуля';
+                        };
+                        break;
+                    case "lot-date":
+                        if ($value === "") {
+                            $errors[$key] = 'Введите дату завершения торгов';
+                        }
+                        elseif ( strtotime($value) - time()<day ) {
+                            $errors[$key] = 'Дата завершения должна быть больше текущей даты хотя бы на один день';
+                        };
+                        break;
                 }
             };
 
-            if (count($errors)==0) {
+            if (count($errors) === 0) {
+
+                move_uploaded_file($tmp_name, 'lot_img/' . $path);
+                $form['path'] = 'lot_img/' . $path;
+                $form['img_alt'] = $path;
 
                 $sql = 'INSERT INTO lots_list (title, category_id, user_id, cost, img, img_alt, date_create, date_end, description) VALUES ( ?, ?, ?, ?, ?, ?, NOW(), ?, ? )';
                 $stmt = db_get_prepare_stmt($con, $sql, [$form['lot-name'], $form['category'], $_SESSION['user']['id'],  $form['lot-rate'], $form['path'], $form['img_alt'], $form['lot-date'], $form['message']]);
@@ -94,6 +92,7 @@
                     exit();
                 }
             }
+
             /*if ($res_pass && empty($errors)) {
                 header("Location: /enter.php");
                 exit();
@@ -123,5 +122,3 @@
 
         print($layout_content);
     }
-
-?>

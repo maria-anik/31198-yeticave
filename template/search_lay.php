@@ -3,9 +3,9 @@
     <h2>Результаты поиска по запросу «<span><?= $search_word?></span>»</h2>
     <?php  if (count( $lots_list)>0) : ?>
         <ul class="lots__list">
-            <?php  foreach ($lots_list as $lot) { ?>
+            <?php  foreach ($lots_list as $lot) : ?>
                     <?= renderTemplate('lot', ['lot' => $lot]) ?>
-            <?php }; ?>
+            <?php  endforeach; ?>
         </ul>
         <?php  if (count( $lots_list)>9) :?>
             <ul class="pagination-list">

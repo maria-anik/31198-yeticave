@@ -13,11 +13,11 @@
         $user_id = strip_tags($_SESSION['user']['id']);
 
 
-        $sql_bet = "SELECT l.id, l.title AS lot_name, c.title AS cat_name, img, img_alt, price, date_end, ts FROM lots_list l JOIN bet_list b ON l.id=b.lot_id  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category_id=c.id WHERE us.id = $user_id ORDER BY ts DESC;";
+        $sql_bet = "SELECT l.id, l.title AS lot_name, c.title AS cat_name, l.img, img_alt, price, date_end, ts FROM lots_list l JOIN bet_list b ON l.id=b.lot_id  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category_id=c.id WHERE us.id = $user_id ORDER BY ts DESC;";
         $result_bet = mysqli_query($con, $sql_bet);
         $bets_list = ($result_bet) ? mysqli_fetch_all($result_bet, MYSQLI_ASSOC) : [];
 
-        $sql_lots = "SELECT l.id, l.title , c.title as category_name, category, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE l.user_id = $user_id";
+        $sql_lots = "SELECT l.id, l.title , c.title as category_name, category, date_end, cost, img, img_alt FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE l.user_id = $user_id";
         $result_lots = mysqli_query($con, $sql_lots);
         $lots_list = ($result_lots) ? mysqli_fetch_all($result_lots, MYSQLI_ASSOC) : [];
 

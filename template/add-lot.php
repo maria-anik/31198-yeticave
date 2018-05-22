@@ -1,4 +1,4 @@
-<form class="form form--add-lot container form--invalid" enctype="multipart/form-data" action="" method="post"> <!-- form--invalid -->
+<form class="form form--add-lot container <?=(count($errors)>0)? 'form__item--invalid':''?>" enctype="multipart/form-data" action="" method="post"> <!-- form--invalid -->
     <h2>Добавление лота</h2>
     <div class="form__container-two">
       <div class="form__item  <?=($errors['lot-name'])? 'form__item--invalid':''?>"> <!-- form__item--invalid -->

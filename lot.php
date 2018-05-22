@@ -18,7 +18,6 @@
 
         if ($lot_id && ($lot_id!=="") ) {
 
-
             $sql_lot = "SELECT  l.title as lot_name, c.title as category_name, description, user_id, step, category, date_end, cost, img, img_alt FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE l.id = $lot_id; ";
             $result_lot = mysqli_query($con, $sql_lot);
             $lot = ($result_lot) ? mysqli_fetch_assoc($result_lot) : [];
@@ -40,6 +39,7 @@
 
                 $errors = [];
                 $form = [];
+
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $form = $_POST;
                     foreach ($form as $key => $value) {
@@ -60,10 +60,6 @@
                     }
 
                 };
-
-
-
-
 
                 $lot_page = renderTemplate("lot_lay",
                 [
@@ -86,12 +82,15 @@
                     "front" => $front
                 ]);
 
-                 print($layout_content);
+                print($layout_content);
+
             } else {
+                header("HTTP/1.0 404 Not Found");
                 header("Location: 404.php"); exit;
             }
 
         } else {
+            header("HTTP/1.0 404 Not Found");
             header("Location: 404.php"); exit;
         }
 

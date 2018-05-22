@@ -4,8 +4,6 @@
     require_once("config.php");
     require_once("data.php");
     require_once("db.php");
-    $front=false;
-
 
     if ($con) {
         $sql_category= "SELECT category, title FROM categories;";
@@ -42,6 +40,5 @@
             "front" => $front
         ]);
         print($layout_content);
-
     }
 ?>

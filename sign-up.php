@@ -49,12 +49,8 @@
 
             if (mysqli_num_rows($res_email) > 0) {
                 $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
-                var_dump($errors);
             }
             else {
-
-
-
                 foreach ($form as $key => $value) {
                     if ($key == "email") {
                         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
@@ -86,7 +82,6 @@
                     $res_pass = mysqli_stmt_execute($stmt);
 
                     if ($res_pass) {
-                        session_start();
 
                         $user['id'] = mysqli_insert_id($con);
                         $user['name'] = $form['name'];

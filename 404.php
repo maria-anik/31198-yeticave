@@ -4,15 +4,12 @@
     require_once("config.php");
     require_once("data.php");
     require_once("db.php");
-    $front=true;
-
 
     if ($con) {
-            $page_404 = renderTemplate("404",
-            [
-            ]);
+        header("HTTP/1.0 404 Not Found");
+        $page_404 = renderTemplate("404",[]);
 
-            $layout_content = renderTemplate("layout",
+        $layout_content = renderTemplate("layout",
             [
                 "content" => $page_404,
                 "title" => "Yeticave - Поиск",
@@ -21,12 +18,6 @@
                 "user_avatar" => $user_avatar,
                 "categories" => $categories,
                 "front" => $front
-
             ]);
-
-            print($layout_content);
-
-
+        print($layout_content);
     };
-
-
