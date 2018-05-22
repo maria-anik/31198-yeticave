@@ -2,7 +2,6 @@
 
     require_once("functions.php");
     require_once("config.php");
-    require_once("data.php");
     require_once("db.php");
 
     if ($con) {
@@ -82,8 +81,8 @@
                 $form['path'] = 'lot_img/' . $path;
                 $form['img_alt'] = $path;
 
-                $sql = 'INSERT INTO lots_list (title, category_id, user_id, cost, img, img_alt, date_create, date_end, description) VALUES ( ?, ?, ?, ?, ?, ?, NOW(), ?, ? )';
-                $stmt = db_get_prepare_stmt($con, $sql, [$form['lot-name'], $form['category'], $_SESSION['user']['id'],  $form['lot-rate'], $form['path'], $form['img_alt'], $form['lot-date'], $form['message']]);
+                $sql = 'INSERT INTO lots_list (title, category_id, user_id, cost, step, img, img_alt, date_create, date_end, description) VALUES ( ?, ?, ?, ?, ?, ?, NOW(), ?, ? )';
+                $stmt = db_get_prepare_stmt($con, $sql, [$form['lot-name'], $form['category'], $_SESSION['user']['id'],  $form['lot-rate'], $form['lot-step'], $form['path'], $form['img_alt'], $form['lot-date'], $form['message']]);
                 $res_pass = mysqli_stmt_execute($stmt);
 
                 if ($res_pass) {
@@ -113,9 +112,6 @@
         [
             "content" => $add_lot,
             "title" => "Yeticave - Добавление лота",
-            "is_auth" => $is_auth,
-            "user_name" => $user_name,
-            "user_avatar" => $user_avatar,
             "categories" => $categories,
             "front" => $front
         ]);

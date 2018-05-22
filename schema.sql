@@ -23,6 +23,7 @@ CREATE INDEX lot_date_create_key ON lots_list (date_create);
 CREATE INDEX lot_date_end_key ON lots_list (date_end);
 CREATE INDEX lot_cat_id ON lots_list (category_id);
 CREATE INDEX lot_user_id ON lots_list (user_id);
+CREATE FULLTEXT INDEX lot_ft_search ON lots_list(title, description);
 
 CREATE TABLE categories (
   id int auto_increment PRIMARY KEY,

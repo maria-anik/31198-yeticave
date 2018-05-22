@@ -2,10 +2,7 @@
 
     require_once("functions.php");
     require_once("config.php");
-    require_once("data.php");
     require_once("db.php");
-    $front = false;
-
 
     if ($con) {
 
@@ -73,9 +70,6 @@
             [
                 "content" => $login_content,
                 "title" => "Yeticave - Логин",
-                "is_auth" => $is_auth,
-                "user_name" => $user_name,
-                "user_avatar" => $user_avatar,
                 "categories" => $categories,
                 "front" => $front
             ]);

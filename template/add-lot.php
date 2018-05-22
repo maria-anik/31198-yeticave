@@ -1,4 +1,4 @@
-<form class="form form--add-lot container <?=(count($errors)>0)? 'form__item--invalid':''?>" enctype="multipart/form-data" action="" method="post"> <!-- form--invalid -->
+<form class="form form--add-lot container <?=(count($errors)>0)? 'form--invalid':''?>" enctype="multipart/form-data" action="" method="post"> <!-- form--invalid -->
     <h2>Добавление лота</h2>
     <div class="form__container-two">
       <div class="form__item  <?=($errors['lot-name'])? 'form__item--invalid':''?>"> <!-- form__item--invalid -->
@@ -55,9 +55,7 @@
         <span class="form__error"><?=$errors['lot-date'] ?? ''?></span>
       </div>
     </div>
-    <? if (count($errors)>0) :?>
-        <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
-    <?endif;?>
+    <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
     <button type="submit" class="button">Добавить лот</button>
 </form>
 

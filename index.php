@@ -1,10 +1,8 @@
 <?php
 
     require_once("config.php");
-    require_once("data.php");
     require_once("functions.php");
     require_once("db.php");
-
     $front=true;
 
 
@@ -28,9 +26,6 @@
             [
                 "content" => $main_content,
                 "title" => "Yeticave - Главная",
-                "is_auth" => $is_auth,
-                "user_name" => $user_name,
-                "user_avatar" => $user_avatar,
                 "categories" => $categories,
                 "front" => $front
             ]);

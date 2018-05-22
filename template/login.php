@@ -1,4 +1,4 @@
-<form class="form container" action="" method="post"> <!-- form--invalid -->
+<form class="form container  <?=(count($errors)>0)? 'form--invalid':''?>" action="" method="post"> <!-- form--invalid -->
     <h2>Вход</h2>
     <div class="form__item <?=($errors['email'])? 'form__item--invalid':''?>"> <!-- form__item--invalid -->
       <label for="email">E-mail*</label>
