@@ -23,8 +23,8 @@
 
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $file_type = finfo_file($finfo, $tmp_name);
-                if ($file_type !== "image/jpeg") {
-                    $errors['file'] = 'Загрузите картинку в формате JPEG';
+                if (($file_type !== "image/jpeg") || ($file_type !== "image/png")) {
+                    $errors['file'] = 'Загрузите картинку в формате JPEG/PNG';
                 }
             }
             else {
@@ -91,6 +91,7 @@
                     exit();
                 }
             }
+
 
             /*if ($res_pass && empty($errors)) {
                 header("Location: /enter.php");

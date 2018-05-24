@@ -10,28 +10,33 @@
         </div>
         <div class="lot-item__right">
             <div class="lot-item__state">
-                <div class="lot-item__timer timer">
-                    <?=lot_time($lot['date_end'])?>
-                </div>
-                <div class="lot-item__cost-state">
-                    <div class="lot-item__rate">
-                        <span class="lot-item__amount">Текущая цена</span>
-                        <span class="lot-item__cost"><?= lot_cost($min_price) ?></span>
+                <?php if ($time_end) :?>
+                    <span>Время ставки вышло!</span>
+                <?php else :?>
+                    <div class="lot-item__timer timer">
+                        <?=lot_time($lot['date_end'])?>
                     </div>
-                    <div class="lot-item__min-cost">
-                        Мин. ставка <span><?= lot_cost($lot['cost']) ?> р</span>
+                    <div class="lot-item__cost-state">
+                        <div class="lot-item__rate">
+                            <span class="lot-item__amount">Текущая цена</span>
+                            <span class="lot-item__cost"><?= lot_cost($min_price) ?></span>
+                        </div>
+                        <div class="lot-item__min-cost">
+                            Мин. ставка <span><?= lot_cost($lot['cost']) ?> р</span>
+                        </div>
                     </div>
-                </div>
-                <?php if ((isset($_SESSION['user']))&&($lot['user_id']!==(int)$_SESSION['user']['id'])) : ?>
-                    <form class="lot-item__form" action="" method="post">
-                        <p class="lot-item__form-item">
-                            <label for="cost">Ваша ставка</label>
-                            <input id="cost" type="number" name="cost" min="<?=$min_price?>" step="<?=$lot['step']?>" placeholder="<?=$min_price?>" value="<?=$value['cost'] ?? ''?>">
-                            <span class="form__error"><?=$errors['cost'] ?? ''?></span>
-                        </p>
-                        <button type="submit" class="button">Сделать ставку</button>
-                    </form>
-                <?php endif;?>
+                    <?php if ((isset($_SESSION['user']))&&($lot['user_id']!==$_SESSION['user']['id'])&&(!$man_get_bet)) : ?>
+                        <form class="lot-item__form" action="" method="post">
+                            <p class="lot-item__form-item">
+                                <label for="cost">Ваша ставка</label>
+                                <input id="cost" type="number" name="cost" min="<?=$min_price?>" step="<?=$lot['step']?>" placeholder="<?=$min_price?>" value="<?=$value['cost'] ?? ''?>">
+                                <span class="form__error"><?=$errors['cost'] ?? ''?></span>
+                            </p>
+                            <button type="submit" class="button">Сделать ставку</button>
+                        </form>
+                    <?php endif;?>
+                <?php endif; ?>
+
             </div>
             <div class="history">
                 <h3>История ставок (<span><?=count($bets_list)?></span>)</h3>

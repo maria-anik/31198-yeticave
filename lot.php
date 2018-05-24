@@ -21,17 +21,34 @@
 
             if (count($lot)>0) {
 
-                $sql_bet = "SELECT us.name, price, ts FROM bet_list b JOIN user_list us ON b.user_id=us.id  WHERE b.lot_id = $lot_id  ORDER BY ts DESC LIMIT 10; ";
+                if (strtotime($lot["date_end"])>time()) {
+                    $time_end = false;
+                }
+                else {
+                    $time_end = true;
+                }
+
+                $sql_bet = "SELECT us.id as user_id, us.name, price, ts FROM bet_list b JOIN user_list us ON b.user_id=us.id  WHERE b.lot_id = $lot_id  ORDER BY ts DESC LIMIT 10; ";
                 $result_bet = mysqli_query($con, $sql_bet);
                 $bets_list = ($result_bet) ? mysqli_fetch_all($result_bet, MYSQLI_ASSOC) : [];
+
+                $man_get_bet = false;
+
 
                 if (count($bets_list)>0) {
                     $current_price = $bets_list[0]["price"];
                     $min_price =  $current_price + $lot["step"];
+
+                    foreach ($bets_list as $key => $value) {
+                        if ($_SESSION['user']['id']==$bets_list[$key]["user_id"]) {
+                            $man_get_bet = true;
+                        }
+                    }
                 }
                 else {
                     $current_price = $lot["cost"];
                     $min_price =  $current_price;
+                    $man_get_bet = false;
                 }
 
                 $errors = [];
@@ -52,7 +69,7 @@
 
                     if (count($errors)==0) {
                         $sql = "INSERT INTO lots_list (lot_id, user_id, price, ts ) VALUES ( ?, ?, ?, NOW() )";
-                        $stmt = db_get_prepare_stmt($con, $sql, [ $lot_id, $_SESSION["user"]["id"], $form["cost"] ]);
+                        $stmt = db_get_prepare_stmt($con, $sql, [ (int)$lot_id, $_SESSION["user"]["id"], $form["cost"] ]);
                         $res_pass = mysqli_stmt_execute($stmt);
                     }
 
@@ -65,7 +82,10 @@
                     "current_price" => $current_price,
                     "min_price" => $min_price,
                     "errors" => $errors,
-                    "value" => $form
+                    "value" => $form,
+                    "man_get_bet" => $man_get_bet,
+                    "time_end" => $time_end
+
                 ]);
 
                 $layout_content = renderTemplate("layout",
