@@ -12,7 +12,8 @@
 
         $errors = [];
         $form = [];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $form = $_POST['login'];
 
             $required = ['email', 'password'];
@@ -32,7 +33,7 @@
 
 
             if ($user) {
-                if ($form['password']=="") {
+                if ( $form['password'] === "" ) {
                     $errors['password'] = 'Это поле надо заполнить';
                 } else {
                     if (password_verify($form['password'], $user['password'])) {
@@ -45,19 +46,10 @@
                         $errors['password'] = 'Неверный пароль';
                     }
                 }
-
             }
             else {
                 $errors['email'] = 'Пользователь с этим email не зарегистрирован';
             }
-
-            /*if ($res_pass && empty($errors)) {
-                header("Location: /enter.php");
-                exit();
-            }
-
-            $tpl_data['errors'] = $errors;
-            $tpl_data['values'] = $form;*/
         }
 
         $login_content = renderTemplate("login",

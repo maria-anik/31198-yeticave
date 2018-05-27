@@ -12,7 +12,7 @@
         $result_cat = mysqli_query($con, $sql_category);
         $categories = ($result_cat) ? mysqli_fetch_all($result_cat, MYSQLI_ASSOC) : [];
 
-        $index_lot = "SELECT l.id, l.title , c.title as category_name, category, cost, date_end, img, img_alt FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE NOW()<date_end  LIMIT 6 ;";
+        $index_lot = "SELECT l.id, l.title , c.title as category_name, category, cost, date_end, img, img_alt FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE NOW()<date_end  ORDER BY date_end ASC LIMIT 6 ;";
         $result_lot = mysqli_query($con, $index_lot);
         $lots_list = ($result_lot) ? mysqli_fetch_all($result_lot, MYSQLI_ASSOC) : [];
 

@@ -23,7 +23,7 @@
 
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $file_type = finfo_file($finfo, $tmp_name);
-                if (($file_type !== "image/jpeg") || ($file_type !== "image/png")) {
+                if (($file_type !== "image/jpeg") && ($file_type !== "image/png")) {
                     $errors['file'] = 'Загрузите картинку в формате JPEG/PNG';
                 }
             }
@@ -49,7 +49,7 @@
                         };
                         break;
                     case "lot-rate" :
-                        if ($value === "") {
+                        if (!isset($value)) {
                             $errors[$key] = 'Введите начальную цену';
                         }
                         elseif ((int)$value<0) {
@@ -57,7 +57,7 @@
                         };
                         break;
                     case "lot-step" :
-                        if ($value === "") {
+                        if (!isset($value)) {
                             $errors[$key] = 'Введите шаг ставки';
                         }
                         elseif ( ((int) $value<0) && is_int($value) ) {
@@ -65,7 +65,7 @@
                         };
                         break;
                     case "lot-date":
-                        if ($value === "") {
+                        if (!isset($value)) {
                             $errors[$key] = 'Введите дату завершения торгов';
                         }
                         elseif ( strtotime($value) - time()<day ) {
@@ -81,8 +81,10 @@
                 $form['path'] = 'lot_img/' . $path;
                 $form['img_alt'] = $path;
 
+                var_dump( date("Y-m-d H:i:s", strtotime($form['lot-date'])));
+
                 $sql = 'INSERT INTO lots_list (title, category_id, user_id, cost, step, img, img_alt, date_create, date_end, description) VALUES ( ?, ?, ?, ?, ?, ?, NOW(), ?, ? )';
-                $stmt = db_get_prepare_stmt($con, $sql, [$form['lot-name'], $form['category'], $_SESSION['user']['id'],  $form['lot-rate'], $form['lot-step'], $form['path'], $form['img_alt'], $form['lot-date'], $form['message']]);
+                $stmt = db_get_prepare_stmt($con, $sql, [$form['lot-name'], (int)$form['category'], (int)$_SESSION['user']['id'],  (float)$form['lot-rate'], (int)$form['lot-step'], $form['path'], $form['img_alt'], date("Y-m-d H:i:s", strtotime($form['lot-date'])), $form['message']]);
                 $res_pass = mysqli_stmt_execute($stmt);
 
                 if ($res_pass) {
@@ -91,15 +93,6 @@
                     exit();
                 }
             }
-
-
-            /*if ($res_pass && empty($errors)) {
-                header("Location: /enter.php");
-                exit();
-            }
-
-            $tpl_data['errors'] = $errors;
-            $tpl_data['values'] = $form;*/
         }
 
         $add_lot = renderTemplate("add-lot",

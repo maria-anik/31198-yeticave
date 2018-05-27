@@ -117,6 +117,7 @@ h2 {
   font-size: 0;
   vertical-align: baseline;
   background: url("../img/rub.svg") 0 0 no-repeat;
+  vertical-align: middle;
 }
 
 /* Хедер */
@@ -144,6 +145,7 @@ h2 {
   position: relative;
   width: 540px;
   margin-right: auto;
+  margin-bottom: 0;
 }
 
 .main-header__search input[type="search"] {
@@ -900,6 +902,7 @@ input:invalid .form__error{
   color: #ffffff;
   border: none;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .preview__img {
@@ -1200,8 +1203,9 @@ input:invalid .form__error{
 }
 
 .rates__timer .timer {
-  width: 82px;
+  min-width: 82px;
   box-sizing: border-box;
+  display: inline-block;
 }
 
 .rates__timer .timer--win {
@@ -1243,3 +1247,6 @@ input:invalid .form__error{
 
 .tab__item { display: none; }
 .tab__item.active { display: block; }
+.tab__link { margin-bottom: 30px; }
+.tab__link-item { font-family: "PT Sans", sans-serif; color: #25434e; margin-right: 10px; font-size: 20px; }
+.tab__link-item.active { text-decoration: underline; }

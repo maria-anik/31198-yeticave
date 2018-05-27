@@ -13,17 +13,14 @@
 
         $errors = [];
         $form = [];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $form = $_POST['signup'];
-
 
             $email = mysqli_real_escape_string($con, $form['email']);
             $sql = "SELECT id FROM user_list WHERE email = '$email'";
             $res_email = mysqli_query($con, $sql);
 
-
-
-            if (isset($_FILES['avatar']['name'])) {
+            if (!empty($_FILES['avatar']['name'])) {
                 $tmp_name = $_FILES['avatar']['tmp_name'];
                 $path = $_FILES['avatar']['name'];
 
@@ -31,12 +28,6 @@
                 $file_type = finfo_file($finfo, $tmp_name);
                 if ($file_type !== "image/jpeg") {
                     $errors['file'] = 'Загрузите картинку в формате JPEG';
-                }
-                else {
-                    if (count($errors)==0) {
-                        move_uploaded_file($tmp_name, 'user_img/' . $path);
-                        $form['path'] = 'user_img/' . $path;
-                    }
                 }
             }
             else {
@@ -49,29 +40,30 @@
             }
             else {
                 foreach ($form as $key => $value) {
-                    if ($key == "email") {
-                        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                            $errors[$key] = 'Email должен быть корректным';
-                        }
+                    if ($key === "email" && !filter_var($value, FILTER_VALIDATE_EMAIL) ) {
+                        $errors[$key] = 'Email должен быть корректным';
                     }
-                    elseif ($key == "name") {
-                        if ($value=="") {
-                            $errors[$key] = 'Введите имя';
-                        }
+                    elseif ($key === "name" && !isset($value)) {
+                        $errors[$key] = 'Введите имя';
                     }
-                    elseif ($key == "message") {
-                        if ($value=="") {
-                            $errors[$key] = 'Введите контактные данные';
-                        }
+                    elseif ($key === "message" && !isset($value)) {
+                        $errors[$key] = 'Введите контактные данные';
                     }
-                    elseif ($key == "password") {
-                        if ($value=="") {
-                            $errors[$key] = 'Введите пароль';
-                        }
+                    elseif ($key === "password" && !isset($value)) {
+                        $errors[$key] = 'Введите пароль';
                     }
                 };
 
-                if (count($errors)==0) {
+                if ( (count($errors)===1 && isset($errors['file'])) || (count($errors)===1)  ) {
+
+                    if (count($errors)===0) {
+                        move_uploaded_file($tmp_name, 'user_img/' . $path);
+                        $form['path'] = 'user_img/' . $path;
+                    }
+                    else {
+                        $form['path'] = "user_img/user.png";
+                    }
+
                     $password = password_hash($form['password'], PASSWORD_DEFAULT);
 
                     $sql = 'INSERT INTO user_list (email, name, password, about, img) VALUES ( ?, ?, ?, ?, ? )';
@@ -92,19 +84,8 @@
                         header("Location: /index.php");
                         exit();
                     }
-
-
                 }
-
             }
-
-            /*if ($res_pass && empty($errors)) {
-                header("Location: /enter.php");
-                exit();
-            }
-
-            $tpl_data['errors'] = $errors;
-            $tpl_data['values'] = $form;*/
         }
 
 

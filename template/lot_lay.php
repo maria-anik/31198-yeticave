@@ -36,24 +36,21 @@
                         </form>
                     <?php endif;?>
                 <?php endif; ?>
-
             </div>
             <div class="history">
                 <h3>История ставок (<span><?=count($bets_list)?></span>)</h3>
                 <table class="history__list">
-                    <?php foreach ($bets_list as $bet) { ?>
-                            <tr class="history__item">
-                                <td class="history__name"><?=htmlspecialchars($bet['name'])?></td>
-                                <td class="history__price"><?= lot_cost($bet['price']) ?> р</td>
-                                <td class="history__time"><?=$bet['ts']?></td>
-                            </tr>
-                    <?php }?>
-
-                    <tr class="history__item">
-                        <td class="history__name">Константин</td>
-                        <td class="history__price">10 999 р</td>
-                        <td class="history__time">20 минут назад</td>
-                    </tr>
+                    <?php if (count($bets_list)>0) : ?>
+                        <?php foreach ($bets_list as $bet) : ?>
+                                <tr class="history__item">
+                                    <td class="history__name"><?=htmlspecialchars($bet['name'])?></td>
+                                    <td class="history__price"><?= lot_cost($bet['price']) ?> р</td>
+                                    <td class="history__time"><?=passed_time($bet['ts'])?></td>
+                                </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <tr><td colspan="3">Ставок нет</td></tr>
+                    <?php endif; ?>
                 </table>
             </div>
         </div>

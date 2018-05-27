@@ -17,23 +17,23 @@
         <span class="form__error"><?=$errors['category'] ?? ''?></span>
       </div>
     </div>
-    <div class="form__item form__item--wide  <?=($errors['message'])? 'form__item--invalid':''?>">
+    <div class="form__item form__item--wide  <?=(isset($errors['message']))? 'form__item--invalid':''?>">
       <label for="message">Описание</label>
       <textarea id="message" name="add_lot[message]" placeholder="Напишите описание лота" > <?=$values['message'] ?? ''; ?></textarea>
       <span class="form__error"><?=$errors['message'] ?? ''?></span>
     </div>
-    <div class="form__item form__item--file form__item--uploaded"> <!--  -->
+    <div class="form__item form__item--file "> <!-- form__item--uploaded -->
       <label>Изображение</label>
-      <!--div class="preview">
+      <div class="preview">
         <button class="preview__remove" type="button">x</button>
-        <div class="preview__img">
-          <img src="img/avatar.jpg" width="113" height="113" alt="Изображение лота">
+        <div class="preview__img" id="preview__img">
         </div>
-      </div-->
+      </div>
       <div class="form__input-file">
         <input class="visually-hidden" name="lot-img" type="file" id="photo2" value="">
         <label for="photo2">
           <span>+ Добавить</span>
+
         </label>
       </div>
       <span class="form__error"><?=$errors['file'] ?? ''?></span>
@@ -58,4 +58,35 @@
     <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
     <button type="submit" class="button">Добавить лот</button>
 </form>
+
+<script>
+    function handleFileSelect(evt) {
+        this.closest(".form__item--file").classList.add("form__item--uploaded");
+        var file = evt.target.files; // FileList object
+        var f = file[0];
+        // Only process image files.
+        if (!f.type.match('image.*')) {
+            alert("Image only please....");
+        }
+        var reader = new FileReader();
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+            return function(e) {
+                // Render thumbnail.
+                var preview = document.getElementById('preview__img');
+                preview.innerHTML = ['<img class="thumb" title="', escape(theFile.name), '" src="', e.target.result, '" width="113" height="113" />'].join('');
+            };
+        })(f);
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+    }
+
+    function removePreview() {
+        this.closest(".form__item--file").classList.remove("form__item--uploaded");
+        document.getElementById('preview__img').innerHTML = [];
+    }
+
+    document.getElementById('photo2').addEventListener('change', handleFileSelect, false);
+    document.getElementsByClassName('preview__remove')[0].addEventListener('click', removePreview, false);
+</script>
 
