@@ -5,7 +5,7 @@
     require_once("db.php");
     $lot_id = mysqli_real_escape_string($con, $_GET["lot_id"]);
 
-    if ($con && $lot_id && ($lot_id!=="") ) {
+    if ($con && !empty($lot_id) ) {
 
         $sql_category= "SELECT category, title FROM categories;";
         $result_cat = mysqli_query($con, $sql_category);
