@@ -8,9 +8,9 @@
         $result_cat = mysqli_query($con, $sql_category);
         $categories = ($result_cat) ? mysqli_fetch_all($result_cat, MYSQLI_ASSOC) : [];
 
-        $user_id = strip_tags($_SESSION['user']['id']);
+        $user_id = strip_tags($_SESSION["user"]["id"]);
 
-        $sql_bet = "SELECT l.id, l.title AS lot_name, c.title AS cat_name, l.img, img_alt, l.user_id as id_user_creator, price, date_end, ts FROM lots_list l JOIN bet_list b ON l.id=b.lot_id  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category_id=c.id WHERE us.id = $user_id ORDER BY date_end DESC; ";
+        $sql_bet = "SELECT l.id, l.title AS lot_name, c.title AS cat_name, l.img, img_alt, l.user_id as id_user_creator, price, date_end, ts FROM lots_list l JOIN bet_list b ON l.id=b.lot_id  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category_id=c.id WHERE us.id = $user_id ORDER BY date_end ASC; ";
         $result_bet = mysqli_query($con, $sql_bet);
         $bets_list = ($result_bet) ? mysqli_fetch_all($result_bet, MYSQLI_ASSOC) : [];
 

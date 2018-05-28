@@ -13,63 +13,63 @@
         $errors = [];
         $form = [];
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $form = $_POST['add_lot'];
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $form = $_POST["add_lot"];
 
 
-            if (!empty($_FILES['lot-img']['name'])) {
-                $tmp_name = $_FILES['lot-img']['tmp_name'];
-                $path = $_FILES['lot-img']['name'];
+            if (!empty($_FILES["lot-img"]["name"])) {
+                $tmp_name = $_FILES["lot-img"]["tmp_name"];
+                $path = $_FILES["lot-img"]["name"];
 
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $file_type = finfo_file($finfo, $tmp_name);
                 if (($file_type !== "image/jpeg") && ($file_type !== "image/png")) {
-                    $errors['file'] = 'Загрузите картинку в формате JPEG/PNG';
+                    $errors["file"] = "Загрузите картинку в формате JPEG/PNG";
                 }
             }
             else {
-                $errors['file'] = 'Вы не загрузили файл';
+                $errors["file"] = "Вы не загрузили файл";
             };
 
             foreach ($form as $key => $value) {
                 switch ($key) {
                     case "lot-name" :
                         if (!isset($value)) {
-                            $errors[$key] = 'Введите наименование лота';
+                            $errors[$key] = "Введите наименование лота";
                         };
                         break;
                     case "category" :
                         if ($value === "0") {
-                            $errors[$key] = 'Введите категорию';
+                            $errors[$key] = "Введите категорию";
                         };
                         break;
                     case "message" :
                         if (!isset($value)) {
-                            $errors[$key] = 'Напишите описание лота';
+                            $errors[$key] = "Напишите описание лота";
                         };
                         break;
                     case "lot-rate" :
                         if (!isset($value)) {
-                            $errors[$key] = 'Введите начальную цену';
+                            $errors[$key] = "Введите начальную цену";
                         }
                         elseif ((int)$value<0) {
-                            $errors[$key] = 'Начальная цена должна быть больше нуля';
+                            $errors[$key] = "Начальная цена должна быть больше нуля";
                         };
                         break;
                     case "lot-step" :
                         if (!isset($value)) {
-                            $errors[$key] = 'Введите шаг ставки';
+                            $errors[$key] = "Введите шаг ставки";
                         }
                         elseif ( ((int) $value<0) && is_int($value) ) {
-                            $errors[$key] = 'Шаг ставки должен быть целым числом и  больше нуля';
+                            $errors[$key] = "Шаг ставки должен быть целым числом и  больше нуля";
                         };
                         break;
                     case "lot-date":
                         if (!isset($value)) {
-                            $errors[$key] = 'Введите дату завершения торгов';
+                            $errors[$key] = "Введите дату завершения торгов";
                         }
                         elseif ( strtotime($value) - time()<day ) {
-                            $errors[$key] = 'Дата завершения должна быть больше текущей даты хотя бы на один день';
+                            $errors[$key] = "Дата завершения должна быть больше текущей даты хотя бы на один день";
                         };
                         break;
                 }
@@ -77,14 +77,12 @@
 
             if (count($errors) === 0) {
 
-                move_uploaded_file($tmp_name, 'lot_img/' . $path);
-                $form['path'] = 'lot_img/' . $path;
-                $form['img_alt'] = $path;
+                move_uploaded_file($tmp_name, "lot_img/" . $path);
+                $form["path"] = "lot_img/" . $path;
+                $form["img_alt"] = $path;
 
-                var_dump( date("Y-m-d H:i:s", strtotime($form['lot-date'])));
-
-                $sql = 'INSERT INTO lots_list (title, category_id, user_id, cost, step, img, img_alt, date_create, date_end, description) VALUES ( ?, ?, ?, ?, ?, ?, NOW(), ?, ? )';
-                $stmt = db_get_prepare_stmt($con, $sql, [$form['lot-name'], (int)$form['category'], (int)$_SESSION['user']['id'],  (float)$form['lot-rate'], (int)$form['lot-step'], $form['path'], $form['img_alt'], date("Y-m-d H:i:s", strtotime($form['lot-date'])), $form['message']]);
+                $sql = "INSERT INTO lots_list (title, category_id, user_id, cost, step, img, img_alt, date_create, date_end, description) VALUES ( ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ? )";
+                $stmt = db_get_prepare_stmt($con, $sql, [$form["lot-name"], (int)$form["category"], (int)$_SESSION["user"]["id"],  (float)$form["lot-rate"], (int)$form["lot-step"], $form["path"], $form["img_alt"], date("Y-m-d H:i:s", strtotime($form["lot-date"])), $form["message"]]);
                 $res_pass = mysqli_stmt_execute($stmt);
 
                 if ($res_pass) {

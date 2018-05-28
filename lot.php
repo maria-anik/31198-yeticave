@@ -24,7 +24,7 @@
                 $time_end = true;
             }
 
-            $sql_bet = "SELECT us.id as user_id, us.name, price, ts FROM bet_list b JOIN user_list us ON b.user_id=us.id  WHERE b.lot_id = $lot_id  ORDER BY ts ASC LIMIT 10; ";
+            $sql_bet = "SELECT us.id as user_id, us.name, price, ts FROM bet_list b JOIN user_list us ON b.user_id=us.id  WHERE b.lot_id = $lot_id  ORDER BY ts DESC LIMIT 10; ";
             $result_bet = mysqli_query($con, $sql_bet);
             $bets_list = ($result_bet) ? mysqli_fetch_all($result_bet, MYSQLI_ASSOC) : [];
 
@@ -36,7 +36,7 @@
                 $min_price =  $current_price + $lot["step"];
 
                 foreach ($bets_list as $key => $value) {
-                    if ( $_SESSION['user']['id'] === (int)$bets_list[$key]["user_id"] ) {
+                    if ( $_SESSION["user"]["id"] === $bets_list[$key]["user_id"] ) {
                         $man_get_bet = true;
                     }
                 }
@@ -90,7 +90,7 @@
                 $layout_content = renderTemplate("layout",
                 [
                     "content" => $lot_page,
-                    "title" => $lot['lot_name'],
+                    "title" => $lot["lot_name"],
                     "categories" => $categories,
                     "front" => $front
                 ]);

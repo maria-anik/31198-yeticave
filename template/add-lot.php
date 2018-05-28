@@ -4,23 +4,23 @@
       <div class="form__item  <?=($errors['lot-name'])? 'form__item--invalid':''?>"> <!-- form__item--invalid -->
         <label for="lot-name">Наименование</label>
         <input id="lot-name" type="text" name="add_lot[lot-name]" placeholder="Введите наименование лота" value="<?=$values['lot-name'] ?? ''; ?>" >
-        <span class="form__error"><?=$errors['lot-name'] ?? ''?></span>
+        <span class="form__error"><?=$errors["lot-name"] ?? ""?></span>
       </div>
       <div class="form__item <?=($errors['category'])? 'form__item--invalid':''?>">
         <label for="category">Категория</label>
         <select id="category" name="add_lot[category]" >
           <option value="0">Выберите категорию</option>
           <?php foreach ($categories as $category) {?>
-            <option value="<?= $category['id'] ?>"><?= $category['title'] ?></option>
+            <option value="<?= $category['id'] ?>"><?= $category["title"] ?></option>
           <?};?>
         </select>
-        <span class="form__error"><?=$errors['category'] ?? ''?></span>
+        <span class="form__error"><?=$errors["category"] ?? ""?></span>
       </div>
     </div>
     <div class="form__item form__item--wide  <?=(isset($errors['message']))? 'form__item--invalid':''?>">
       <label for="message">Описание</label>
-      <textarea id="message" name="add_lot[message]" placeholder="Напишите описание лота" > <?=$values['message'] ?? ''; ?></textarea>
-      <span class="form__error"><?=$errors['message'] ?? ''?></span>
+      <textarea id="message" name="add_lot[message]" placeholder="Напишите описание лота" > <?=$values["message"] ?? ""; ?></textarea>
+      <span class="form__error"><?=$errors["message"] ?? ""?></span>
     </div>
     <div class="form__item form__item--file "> <!-- form__item--uploaded -->
       <label>Изображение</label>
@@ -33,26 +33,25 @@
         <input class="visually-hidden" name="lot-img" type="file" id="photo2" value="">
         <label for="photo2">
           <span>+ Добавить</span>
-
         </label>
       </div>
-      <span class="form__error"><?=$errors['file'] ?? ''?></span>
+      <span class="form__error"><?=$errors["file"] ?? ""?></span>
     </div>
     <div class="form__container-three">
       <div class="form__item form__item--small <?=($errors['lot-rate'])? 'form__item--invalid':''?>">
         <label for="lot-rate">Начальная цена</label>
         <input id="lot-rate" type="number" name="add_lot[lot-rate]" placeholder="0" value="<?=$values['lot-rate'] ?? ''; ?>"  >
-        <span class="form__error"><?=$errors['lot-rate'] ?? ''?></span>
+        <span class="form__error"><?=$errors["lot-rate"] ?? ""?></span>
       </div>
       <div class="form__item form__item--small <?=($errors['lot-step'])? 'form__item--invalid':''?>">
         <label for="lot-step">Шаг ставки</label>
         <input id="lot-step" type="number" name="add_lot[lot-step]" placeholder="0" value="<?=$values['lot-step'] ?? ''; ?>"  >
-        <span class="form__error"><?=$errors['lot-step'] ?? ''?></span>
+        <span class="form__error"><?=$errors["lot-step"] ?? ""?></span>
       </div>
       <div class="form__item <?=($errors['lot-date'])? 'form__item--invalid':''?>">
         <label for="lot-date">Дата окончания торгов</label>
         <input class="form__input-date" id="lot-date" type="date" name="add_lot[lot-date]" value="<?=$values['lot-date'] ?? ''; ?>"  >
-        <span class="form__error"><?=$errors['lot-date'] ?? ''?></span>
+        <span class="form__error"><?=$errors["lot-date"] ?? ""?></span>
       </div>
     </div>
     <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
@@ -65,7 +64,7 @@
         var file = evt.target.files; // FileList object
         var f = file[0];
         // Only process image files.
-        if (!f.type.match('image.*')) {
+        if (!f.type.match("image.*")) {
             alert("Image only please....");
         }
         var reader = new FileReader();
@@ -73,8 +72,8 @@
         reader.onload = (function(theFile) {
             return function(e) {
                 // Render thumbnail.
-                var preview = document.getElementById('preview__img');
-                preview.innerHTML = ['<img class="thumb" title="', escape(theFile.name), '" src="', e.target.result, '" width="113" height="113" />'].join('');
+                var preview = document.getElementById("preview__img");
+                preview.innerHTML = ["<img class='thumb' title='", escape(theFile.name), "' src='", e.target.result, "' width='113' height='113' />"].join("");
             };
         })(f);
         // Read in the image file as a data URL.
@@ -83,10 +82,10 @@
 
     function removePreview() {
         this.closest(".form__item--file").classList.remove("form__item--uploaded");
-        document.getElementById('preview__img').innerHTML = [];
+        document.getElementById("preview__img").innerHTML = [];
     }
 
-    document.getElementById('photo2').addEventListener('change', handleFileSelect, false);
-    document.getElementsByClassName('preview__remove')[0].addEventListener('click', removePreview, false);
+    document.getElementById("photo2").addEventListener("change", handleFileSelect, false);
+    document.getElementsByClassName("preview__remove")[0].addEventListener("click", removePreview, false);
 </script>
 

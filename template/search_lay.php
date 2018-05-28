@@ -4,7 +4,7 @@
     <?php  if (count( $lots_list)>0) : ?>
         <ul class="lots__list">
             <?php  foreach ($lots_list as $lot) : ?>
-                    <?= renderTemplate('lot', ['lot' => $lot]) ?>
+                    <?= renderTemplate("lot", ["lot" => $lot]) ?>
             <?php  endforeach; ?>
         </ul>
         <?php if ( count($pages) > 1) :?>
@@ -33,7 +33,9 @@
                 </li>
             </ul>
         <?php endif; ?>
-    <?php else : echo "<div class=''>В этой категории пока нет товаров</div></br>"; endif;?>
+    <?php else :?>
+        <div class="">В этой категории пока нет товаров</div></br>
+    <?php endif;?>
   </section>
 
 </div>

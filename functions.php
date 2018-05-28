@@ -5,7 +5,7 @@
  * @return string
  */
 function lot_cost($price) {
-    return number_format($price, 0, ',', ' ');
+    return number_format($price, 0, ",", " ");
 }
 
 /**
@@ -15,7 +15,7 @@ function lot_cost($price) {
  * @return string
  */
 function renderTemplate($file_name, $params_array) {
-    $file = __DIR__ . '/template/' . $file_name . '.php';
+    $file = __DIR__ . "/template/" . $file_name . ".php";
     if (is_readable($file)) {
         ob_start();
         extract($params_array);
@@ -40,7 +40,7 @@ function lot_time($date) {
         $minutes = floor(($time_wait % hour) / minute);
         $seconds = ($time_wait - $hours*hour - $minutes*minute)  % day;
 
-        $time_wait_string = $hours . ':' . $minutes. ':'. $seconds /*date("H:i:s", $time_wait)*/;
+        $time_wait_string = $hours . ":" . $minutes. ":". $seconds /*date("H:i:s", $time_wait)*/;
     }
     else {
         $time_wait_string = "Торги окончены";
@@ -61,15 +61,15 @@ function lot_time($date) {
 function passed_time($date){
  $time = time();
  $date_end = strtotime($date);
- $tm = date('H:i', $date_end);
- $d = date('d', $date_end);
- $m = date('m', $date_end);
- $y = date('y', $date_end);
+ $tm = date("H:i", $date_end);
+ $d = date("d", $date_end);
+ $m = date("m", $date_end);
+ $y = date("y", $date_end);
  $last = round(($time - $date_end)/minute);
  $last_hours = round(($time - $date_end)/hour);
 
  if( $last < 55 ) return "$last минут назад";
- elseif($d.$m.$y == date('dmy',$time)) {
+ elseif($d.$m.$y == date("dmy",$time)) {
     if ($last_hours==1 || $last_hours==21 ) { return "$last_hours час назад"; }
     else if ($last_hours==2 || $last_hours==3 || $last_hours==4 || $last_hours==22 || $last_hours==23 || $last_hours==24 ) {
         return "$last_hours часa назад";
@@ -78,31 +78,8 @@ function passed_time($date){
         return "$last_hours часов назад";
     }
  }
- elseif($d.$m.$y == date('dmy', strtotime('-1 day'))) return "Вчера в $tm";
+ elseif($d.$m.$y == date("dmy", strtotime("-1 day"))) return "Вчера в $tm";
  else return "$d.$m.$y в $tm";
-}
-
-
-/**
- * Вычисляет сколько времени осталось до продажи лота
- * @param date string - дата до конца продажи лота
- * @return string
- */
-function lot_time_string ($date = 'tomorrow') {
-    $date_end = strtotime($date);
-    $time_wait = $date_end - time();
-
-    if ($time_wait>0) {
-        $hours = floor($time_wait / hour);
-        $minutes = floor(($time_wait % hour) / minute);
-        $seconds = ($time_wait - $hours*hour - $minutes*minute)  % day;
-
-        $time_wait_string = $hours . ':' . $minutes. ':'. $seconds;
-    }
-    else {
-        $time_wait_string = "Время вышло!";
-    }
-    return $time_wait_string;
 }
 
 
@@ -126,13 +103,13 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
             $type = null;
 
             if (is_int($value)) {
-                $type = 'i';
+                $type = "i";
             }
             else if (is_string($value)) {
-                $type = 's';
+                $type = "s";
             }
             else if (is_double($value)) {
-                $type = 'd';
+                $type = "d";
             }
 
             if ($type) {
@@ -143,7 +120,7 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
 
         $values = array_merge([$stmt, $types], $stmt_data);
 
-        $func = 'mysqli_stmt_bind_param';
+        $func = "mysqli_stmt_bind_param";
         $func(...$values);
     }
 

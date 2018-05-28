@@ -4,8 +4,8 @@
     session_start();
 
 
-    ini_set('session.cookie_lifetime', 86400);
-    ini_set('session.gc_maxlifetime', 86400);
+    ini_set("session.cookie_lifetime", 86400);
+    ini_set("session.gc_maxlifetime", 86400);
 
     define("minute", 60);
     define("hour", 3600);

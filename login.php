@@ -13,19 +13,19 @@
         $errors = [];
         $form = [];
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $form = $_POST['login'];
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $form = $_POST["login"];
 
-            $required = ['email', 'password'];
+            $required = ["email", "password"];
 
             foreach ($required as $field) {
                 if (empty($form[$field])) {
-                    $errors[$field] = 'Это поле надо заполнить';
+                    $errors[$field] = "Это поле надо заполнить";
                 }
             }
 
 
-            $email = mysqli_real_escape_string($con, $form['email']);
+            $email = mysqli_real_escape_string($con, $form["email"]);
             $mail_sql = "SELECT * FROM user_list WHERE email = '$email'";
             $res = mysqli_query($con, $mail_sql);
 
@@ -33,22 +33,22 @@
 
 
             if ($user) {
-                if ( $form['password'] === "" ) {
-                    $errors['password'] = 'Это поле надо заполнить';
+                if ( $form["password"] === "" ) {
+                    $errors["password"] = "Это поле надо заполнить";
                 } else {
-                    if (password_verify($form['password'], $user['password'])) {
-                        $_SESSION['user'] = $user;
+                    if (password_verify($form["password"], $user["password"])) {
+                        $_SESSION["user"] = $user;
 
                         header("Location: /user.php");
                         exit();
                     }
                     else {
-                        $errors['password'] = 'Неверный пароль';
+                        $errors["password"] = "Неверный пароль";
                     }
                 }
             }
             else {
-                $errors['email'] = 'Пользователь с этим email не зарегистрирован';
+                $errors["email"] = "Пользователь с этим email не зарегистрирован";
             }
         }
 

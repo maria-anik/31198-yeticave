@@ -3,22 +3,22 @@
     <div class="form__item <?=($errors['email'])? 'form__item--invalid':''?>"> <!-- form__item--invalid -->
         <label for="email">E-mail*</label>
         <input id="email" type="text" name="signup[email]" placeholder="Введите e-mail" value="<?=$values['email'] ?? ''; ?>" >
-        <span class="form__error"><?=$errors['email'] ?? '';?></span>
+        <span class="form__error"><?=$errors["email"] ?? "";?></span>
     </div>
     <div class="form__item">
         <label for="password">Пароль*</label>
         <input id="password" type="text" name="signup[password]" placeholder="Введите пароль" >
-        <span class="form__error"><?=$errors['password'] ?? '';?></span>
+        <span class="form__error"><?=$errors["password"] ?? "";?></span>
     </div>
     <div class="form__item <?=($errors['name'])? 'form__item--invalid':''?>">
         <label for="name">Имя*</label>
         <input id="name" type="text" name="signup[name]" placeholder="Введите имя" value="<?=$values['name'] ?? ''; ?>"  >
-        <span class="form__error"><?=$errors['name'] ?? ''?></span>
+        <span class="form__error"><?=$errors["name"] ?? ""?></span>
     </div>
     <div class="form__item <?=($errors['message'])? 'form__item--invalid':''?>">
         <label for="message">Контактные данные*</label>
-        <textarea id="message" name="signup[message]" placeholder="Напишите как с вами связаться" ><?=$values['message'] ?? ''; ?></textarea>
-        <span class="form__error"><?=$errors['message'] ?? ''?></span>
+        <textarea id="message" name="signup[message]" placeholder="Напишите как с вами связаться" ><?=$values["message"] ?? ""; ?></textarea>
+        <span class="form__error"><?=$errors["message"] ?? ""?></span>
     </div>
     <div class="form__item form__item--file form__item--last">
         <label>Аватар</label>
@@ -34,7 +34,7 @@
                 <span>+ Добавить</span>
             </label>
         </div>
-        <span class="form__error"><?=$errors['file'] ?? ''?></span>
+        <span class="form__error"><?=$errors["file"] ?? ""?></span>
     </div>
     <?php
     if (count($errors)>0) :?>

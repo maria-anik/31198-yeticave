@@ -12,7 +12,7 @@
 
 
         $result = mysqli_query($con, "SELECT COUNT(*) as cnt  FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE c.category='$search_category'");
-        $lots_count = ($result) ? (int) mysqli_fetch_assoc($result)['cnt'] : 1;
+        $lots_count = ($result) ? (int) mysqli_fetch_assoc($result)["cnt"] : 1;
 
         if (isset($_GET["page"])) {
             $cur_page = (int) mysqli_real_escape_string($con, $_GET["page"]) ?? 1;
@@ -34,7 +34,7 @@
         $search_category_name = "SELECT title FROM categories WHERE category = '$search_category';";
         $result_search_cat = mysqli_query($con, $search_category_name);
         $category = ($result_search_cat) ? mysqli_fetch_assoc($result_search_cat) : [];
-        $category_name = $category['title'];
+        $category_name = $category["title"];
 
         $search_content = renderTemplate("category_lay",
             [

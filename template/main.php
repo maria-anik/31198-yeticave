@@ -6,7 +6,7 @@
         <ul class="promo__list">
             <?php foreach ($categories as $category) : ?>
                 <li class="promo__item  promo__item--<?= $category['category'] ?>">
-                    <a class="promo__link" href="category.php?category=<?= $category['category'] ?>"><?= $category['title'] ?></a>
+                    <a class="promo__link" href="category.php?category=<?= $category['category'] ?>"><?= $category["title"] ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -18,7 +18,7 @@
         <?php  if (count( $lots_list)>0) {?>
         <ul class="lots__list">
             <?php foreach ($lots_list as $lot) { ?>
-                <?= renderTemplate('lot', ['lot' => $lot])?>
+                <?= renderTemplate("lot", ["lot" => $lot])?>
             <?php }?>
         </ul>
         <?php }?>
