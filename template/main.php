@@ -15,12 +15,12 @@
         <div class="lots__header">
             <h2>Открытые лоты</h2>
         </div>
-        <?php  if (count( $lots_list)>0) {?>
+        <?php  if (count( $lots_list)) : ?>
         <ul class="lots__list">
-            <?php foreach ($lots_list as $lot) { ?>
+            <?php foreach ($lots_list as $lot) : ?>
                 <?= renderTemplate("lot", ["lot" => $lot])?>
-            <?php }?>
+            <?php endforeach; ?>
         </ul>
-        <?php }?>
+        <?php endif; ?>
     </section>
 </div>

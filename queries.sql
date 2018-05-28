@@ -27,25 +27,20 @@ INSERT INTO user_list (name, email, password, about, img)
 
 
 INSERT INTO bet_list (lot_id, user_id, price, ts)
-  VALUES (1, 1, 10500, "2018-05-07 20:40:59"),
-         (1, 2, 11000, "2018-05-07 21:40:59"),
-         (1, 3, 12500, "2018-05-07 21:20:59"),
-         (2, 4, 13000, "2018-05-07 21:40:59"),
-         (2, 1, 10500, "2018-05-08 20:40:59"),
-         (4, 1, 4500, "2018-05-04 20:40:59");
+  VALUES (1, 1, 11000, "2018-05-07 20:40:59"),
+         (1, 2, 11500, "2018-05-07 21:40:59"),
+         (1, 3, 12500, "2018-05-07 21:45:59"),
+         (2, 4, 159999, "2018-05-07 21:40:59"),
+         (2, 1, 160999, "2018-05-08 20:40:59"),
+         (4, 1, 10999, "2018-05-04 20:40:59");
 
-use yeticave;
-DROP DATABASE IF EXISTS yeticave;
-
-DROP TABLE IF EXISTS user_list
 
 SELECT title, cost FROM lots_list;
 SELECT category, title FROM categories;
-
 /*Запрос для поиска всех лотов с выводом названия категории из таблицы категорий*/
 SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id;
 /*Запрос для поиска всех лотов в указанной категории*/
-SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE c.title="Доски и лыжи";
+SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE c.title="Ботинки";
 /*Запрос для поиска по подстроке названия лота*/
 SELECT  l.title, c.title, cost, img FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE l.title like "%для%";
 
@@ -64,6 +59,10 @@ select title, cost, img, date_create, date_end, now()  from lots_list where date
 /*Количество ставок на конкретном лоте*/
 select count(*) from bet_list where lot_id=1;
 
+INSERT INTO bet_list (lot_id, user_id, price, ts) VALUES
+          (9, 1, 6000, "2018-05-01 04:25:36" );
+
+
 
 /*обновить название лота по id*/
 UPDATE lots_list SET description="Легкий маневренный сноуборд, готовый дать жару в любом парке, растопив снег
@@ -72,12 +71,7 @@ UPDATE lots_list SET description="Легкий маневренный сноуб
           позволит уверенно держать высокие скорости. А если к концу катального дня сил совсем не останется, просто
           посмотрите на Вашу доску и улыбнитесь, крутая графика от Шона Кливера еще никого не оставляла равнодушным." WHERE id=1;
 
-
-/*получить список самых свежих ставок для лота по его идентификатору;*/
-
-SELECT lot_id, price, ts FROM bet_list WHERE lot_id=1 ORDER BY ts;
-
-/*получить самые новые, открытые лоты. Каждый лот должен включать название, стартовую цену, ссылку на изображение, цену, количество ставок, название категории;*/
-
 /*лоты конкретного человека*/
-SELECT l.title AS lot_name, c.title AS cat_name, img, link, price, ts FROM lots_list l JOIN bet_list b ON l.id=b.lot_id  JOIN user_list us ON b.user_id=us.id  JOIN categories c ON l.category_id=c.id WHERE us.id = 1 ORDER BY ts;
+SELECT l.title AS lot_name, c.title AS cat_name, l.img, price, ts FROM lots_list l JOIN user_list us ON l.user_id=us.id  JOIN categories c ON l.category_id=c.id WHERE l.user_id = 1 ORDER BY ts;
+
+SELECT l.id, l.title , c.title as category_name, category, date_end, cost, img, img_alt FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE l.user_id = 1 ORDER BY date_end DESC

@@ -48,7 +48,7 @@
         <ul class="nav__list container">
             <?php foreach ($categories as $category) :?>
                 <li class="nav__item">
-                    <a href="category.php?category=<?= $category['category']?>"><?= $category["title"] ?></a>
+                    <a href="category.php?category=<?= $category['category'] ?>"><?= $category["title"] ?></a>
                 </li>
             <?php endforeach;?>
         </ul>
@@ -61,11 +61,11 @@
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <?php foreach ($categories as $category) {?>
+            <?php foreach ($categories as $category) :?>
                 <li class="nav__item">
                   <a href="category.php?category=<?= $category['category']?>"><?= $category["title"] ?></a>
                 </li>
-              <?};?>
+            <?php endforeach;?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">

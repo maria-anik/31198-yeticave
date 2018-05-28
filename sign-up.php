@@ -16,9 +16,7 @@
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $form = $_POST["signup"];
 
-            $email = mysqli_real_escape_string($con, $form["email"]);
-            $sql = "SELECT id FROM user_list WHERE email = '$email'";
-            $res_email = mysqli_query($con, $sql);
+
 
             if (!empty($_FILES["avatar"]["name"])) {
                 $tmp_name = $_FILES["avatar"]["tmp_name"];
@@ -26,13 +24,17 @@
 
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $file_type = finfo_file($finfo, $tmp_name);
-                if ($file_type !== "image/jpeg") {
-                    $errors["file"] = "Загрузите картинку в формате JPEG";
+                if (($file_type !== "image/jpeg") && ($file_type !== "image/png")) {
+                    $errors["file"] = "Загрузите картинку в формате JPEG/PNG";
                 }
             }
             else {
                 $errors["file"] = "Вы не загрузили файл";
             }
+
+            $email = mysqli_real_escape_string($con, $form["email"]);
+            $sql = "SELECT id FROM user_list WHERE email = '$email'";
+            $res_email = mysqli_query($con, $sql);
 
 
             if (mysqli_num_rows($res_email) > 0) {
@@ -43,18 +45,18 @@
                     if ($key === "email" && !filter_var($value, FILTER_VALIDATE_EMAIL) ) {
                         $errors[$key] = "Email должен быть корректным";
                     }
-                    elseif ($key === "name" && !isset($value)) {
+                    elseif ($key === "name" && empty($value)) {
                         $errors[$key] = "Введите имя";
                     }
-                    elseif ($key === "message" && !isset($value)) {
+                    elseif ($key === "message" && empty($value)) {
                         $errors[$key] = "Введите контактные данные";
                     }
-                    elseif ($key === "password" && !isset($value)) {
+                    elseif ($key === "password" && empty($value)) {
                         $errors[$key] = "Введите пароль";
                     }
                 };
 
-                if ( (count($errors)===1 && isset($errors["file"])) || (count($errors)===1)  ) {
+                if ( (count($errors)===1 && !empty($errors["file"])) || (count($errors)===0)  ) {
 
                     if (count($errors)===0) {
                         move_uploaded_file($tmp_name, "user_img/" . $path);

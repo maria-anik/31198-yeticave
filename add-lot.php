@@ -31,10 +31,11 @@
                 $errors["file"] = "Вы не загрузили файл";
             };
 
+
             foreach ($form as $key => $value) {
                 switch ($key) {
                     case "lot-name" :
-                        if (!isset($value)) {
+                        if (empty($value)) {
                             $errors[$key] = "Введите наименование лота";
                         };
                         break;
@@ -44,20 +45,20 @@
                         };
                         break;
                     case "message" :
-                        if (!isset($value)) {
+                        if (empty($value)) {
                             $errors[$key] = "Напишите описание лота";
                         };
                         break;
                     case "lot-rate" :
-                        if (!isset($value)) {
+                        if (empty($value)) {
                             $errors[$key] = "Введите начальную цену";
                         }
-                        elseif ((int)$value<0) {
+                        elseif ((int)$value<=0) {
                             $errors[$key] = "Начальная цена должна быть больше нуля";
                         };
                         break;
                     case "lot-step" :
-                        if (!isset($value)) {
+                        if (empty($value)) {
                             $errors[$key] = "Введите шаг ставки";
                         }
                         elseif ( ((int) $value<0) && is_int($value) ) {
@@ -65,7 +66,7 @@
                         };
                         break;
                     case "lot-date":
-                        if (!isset($value)) {
+                        if (empty($value)) {
                             $errors[$key] = "Введите дату завершения торгов";
                         }
                         elseif ( strtotime($value) - time()<day ) {

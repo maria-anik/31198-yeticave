@@ -36,7 +36,7 @@
                 $min_price =  $current_price + $lot["step"];
 
                 foreach ($bets_list as $key => $value) {
-                    if ( $_SESSION["user"]["id"] === $bets_list[$key]["user_id"] ) {
+                    if ( !empty($_SESSION["user"]["id"]) && ($_SESSION["user"]["id"] === $bets_list[$key]["user_id"]) ) {
                         $man_get_bet = true;
                     }
                 }
