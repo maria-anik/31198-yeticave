@@ -9,9 +9,9 @@
       <div class="form__item <?= (!empty($errors['category'])) ? 'form__item--invalid' : '' ?>">
         <label for="category">Категория</label>
         <select id="category" name="add_lot[category]" >
-          <option value="0">Выберите категорию</option>
+          <option value="0" >Выберите категорию</option>
           <?php foreach ($categories as $category) {?>
-            <option value="<?= $category['id'] ?>"><?= $category["title"] ?></option>
+            <option value="<?= $category['id'] ?>" <?php if (!empty($values["category"])&&$values["category"]===$category['id']) { echo "selected";} ?> ><?= $category["title"] ?></option>
           <?};?>
         </select>
         <span class="form__error"><?= $errors["category"] ?? "" ?></span>
