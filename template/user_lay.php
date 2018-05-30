@@ -10,8 +10,9 @@
             <?php  if (count( $bets_list)) : ?>
                 <table class="rates__list">
                     <?php  foreach ($bets_list as $bet) : ?>
-                        <tr class="rates__item <?php if ( strtotime($bet['date_end']) <= time() ) {echo "rates__item--end";}
-                                                     else if (( strtotime($bet['date_end']) - time()<day )&&( strtotime($bet['date_end']) - time()>0 )) { echo "rates__item--finishing"; }
+                        <tr class="rates__item <?php if ( strtotime($bet['date_end']) <= time() ) {echo 'rates__item--end';}
+                                                     else if (( strtotime($bet['date_end']) - time()<day )&&( strtotime($bet['date_end']) - time()>0 )) { echo 'rates__item--finishing'; };
+                                                     if (!empty($bet['status_win'])) { echo ' rates__item--win';};
                                                 ?>">
                             <td class="rates__info">
                                 <div class="rates__img">
@@ -26,10 +27,16 @@
                             </td>
                             <td class="rates__category"> <?= $bet["cat_name"]?> </td>
                             <td class="rates__timer">
-                                <div class="timer <?php
-                                    if ( strtotime($bet['date_end']) - time()<=0 ) { echo "timer--end";}
-                                    else if (( strtotime($bet['date_end']) - time()<day )&&( strtotime($bet['date_end']) - time()>0 )) { echo "timer--finishing"; }
-                                ?>"><?= lot_time($bet["date_end"]) ?></div>
+                                <?php if (!empty($bet['status_win'])) : ?>
+                                    <div class="timer timer--end timer--win">
+                                        Ставка выиграла
+                                    </div>
+                                <?php else : ?>
+                                    <div class="timer <?php
+                                        if ( strtotime($bet['date_end']) - time()<=0 ) { echo "timer--end";}
+                                        else if (( strtotime($bet['date_end']) - time()<day )&&( strtotime($bet['date_end']) - time()>0 )) { echo "timer--finishing"; };
+                                    ?>"><?= lot_time($bet["date_end"]) ?></div>
+                                <?php endif; ?>
                             </td>
                             <td class="rates__price"><?= lot_cost($bet["price"]) ?> p</td>
                             <td class="rates__time"> <?= passed_time($bet["ts"]) ?> </td>

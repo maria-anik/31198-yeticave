@@ -1208,16 +1208,17 @@ input:invalid .form__error{
   display: inline-block;
 }
 
-.rates__timer .timer--win {
-  width: 112px;
-  box-sizing: border-box;
-}
+
 
 .rates__timer .timer--end {
   width: 107px;
   box-sizing: border-box;
 }
 
+.rates__timer .timer--win {
+  width: auto;
+  box-sizing: border-box;
+}
 .rates__price {
   width: 135px;
   font-size: 13px;

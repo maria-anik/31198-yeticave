@@ -4,7 +4,7 @@
     require_once("config.php");
     require_once("db.php");
     $lot_id = mysqli_real_escape_string($con, $_GET["lot_id"]);
-    $current_user = $_SESSION["user"]["id"];
+    $current_user = $_SESSION["user"]["id"] ?? 0;
     $is_creator = false;
 
     if ($con && !empty($lot_id) ) {
@@ -21,7 +21,11 @@
             $is_creator = true;
         }
 
-        $sql_lot = "SELECT  l.title as lot_name, c.title as category_name, description, user_id, step, category, date_end, cost, img, img_alt FROM lots_list l JOIN categories c ON l.category_id=c.id WHERE l.id = $lot_id; ";
+        $sql_lot = "SELECT  l.title as lot_name, c.title as category_name, description, user_id, step, category, date_end, cost, img, img_alt
+                    FROM lots_list l
+                    JOIN categories c
+                    ON l.category_id=c.id
+                    WHERE l.id = $lot_id; ";
         $result_lot = mysqli_query($con, $sql_lot);
         $lot = ($result_lot) ? mysqli_fetch_assoc($result_lot) : [];
 
@@ -34,7 +38,13 @@
                 $time_end = true;
             }
 
-            $sql_bet = "SELECT us.id as user_id, us.name, price, ts FROM bet_list b JOIN user_list us ON b.user_id=us.id  WHERE b.lot_id = $lot_id  ORDER BY ts DESC LIMIT 10; ";
+            $sql_bet = "SELECT us.id as user_id, us.name, price, ts
+                        FROM bet_list b
+                        JOIN user_list us
+                        ON b.user_id=us.id
+                        WHERE b.lot_id = $lot_id
+                        ORDER BY ts DESC
+                        LIMIT 10; ";
             $result_bet = mysqli_query($con, $sql_bet);
             $bets_list = ($result_bet) ? mysqli_fetch_all($result_bet, MYSQLI_ASSOC) : [];
 
@@ -49,6 +59,13 @@
                         }
                     };
                 }
+
+                $sql_get_bet = "SELECT user_id FROM bet_list WHERE user_id=$current_user AND lot_id = $lot_id";
+                $result_get_bet = mysqli_query($con, $sql_get_bet);
+                if (mysqli_num_rows($result_get_bet) > 0) {
+                    $man_get_bet = true;
+                }
+
             } else {
                 $current_price = $lot["cost"];
                 $min_price =  $current_price;

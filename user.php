@@ -8,17 +8,15 @@
         $result_cat = mysqli_query($con, $sql_category);
         $categories = ($result_cat) ? mysqli_fetch_all($result_cat, MYSQLI_ASSOC) : [];
 
-        $user_id = strip_tags($_SESSION["user"]["id"]);
+        $current_user = (int)strip_tags($_SESSION["user"]["id"]);
 
         $sql_bet = "SELECT l.id, l.title AS lot_name, c.title AS cat_name, l.img, img_alt, l.user_id as id_user_creator, price, date_end, ts
                     FROM lots_list l
                     JOIN bet_list b
                     ON l.id=b.lot_id
-                    JOIN user_list us
-                    ON b.user_id=us.id
                     JOIN categories c
                     ON l.category_id=c.id
-                    WHERE us.id = $user_id
+                    WHERE b.user_id = '$current_user'
                     ORDER BY date_end ASC; ";
         $result_bet = mysqli_query($con, $sql_bet);
         $bets_list = ($result_bet) ? mysqli_fetch_all($result_bet, MYSQLI_ASSOC) : [];
@@ -42,31 +40,45 @@
         };
 
         $week = time() - day*7;
+        $today = time();
         $bets_last = [];
         $bets_current = [];
+        $bets_win = [];
+        $status_win = false;
 
         foreach ($bets_list as $bet) {
-            if (strtotime($bet["date_end"]) > $week) {
+            if (strtotime($bet["date_end"]) > $today) {
                 $bets_current[count($bets_current)] = $bet;
             }
             else {
+                $win_user = [];
+                if (strtotime($bet["date_end"]) > $week ) {
+                    $id_last_lot_bet = (int)$bet["id"];
+                    $sql_win_user = " SELECT user_id FROM bet_list WHERE lot_id = '$id_last_lot_bet'  ORDER BY ts DESC LIMIT 1;";
+                    $result_win_user = mysqli_query($con, $sql_win_user);
+                    $win_user = ($result_win_user) ? mysqli_fetch_assoc($result_win_user) : [];
+
+                    if ($current_user === (int)$win_user["user_id"] && !empty($win_user)) {
+                        $bet["status_win"]=true;
+                        $bets_win[count($bets_win)] = $bet;
+                        continue;
+                    }
+                };
                 $bets_last[count($bets_last)] = $bet;
             }
         };
-
-        $new_bets_list = array_merge($bets_current, $bets_last);
-
+        $new_bets_list = array_merge($bets_win, $bets_current, $bets_last);
 
         $sql_lots = "SELECT l.id, l.title , c.title as category_name, category, date_end, cost, img, img_alt
                      FROM lots_list l
                      JOIN categories c
                      ON l.category_id=c.id
-                     WHERE l.user_id = $user_id
+                     WHERE l.user_id = $current_user
                      ORDER BY date_end ASC ";
         $result_lots = mysqli_query($con, $sql_lots);
         $lots_list = ($result_lots) ? mysqli_fetch_all($result_lots, MYSQLI_ASSOC) : [];
 
-        $today = time();
+
         $lots_last = [];
         $lots_current = [];
         foreach ($lots_list as $lot) {
@@ -82,7 +94,7 @@
         $user_bet = renderTemplate("user_lay",
         [
             "bets_list" => $new_bets_list,
-            "lots_list" => $new_lots_list
+            "lots_list" => $new_lots_list,
         ]);
 
         $layout_content = renderTemplate("layout",
