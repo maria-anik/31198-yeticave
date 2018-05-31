@@ -16,7 +16,7 @@ CREATE TABLE lots_list (
   img_alt varchar(255),
   date_create DATETIME,
   date_end DATETIME,
-  sent_mail_win boolean
+  user_win int unsigned
 );
 
 CREATE INDEX lot_title_key ON lots_list (title);

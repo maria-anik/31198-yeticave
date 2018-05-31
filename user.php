@@ -3,6 +3,10 @@
     require_once("config.php");
     require_once("db.php");
 
+    if (empty($_SESSION["user"])) {
+         header("Location: login.php"); exit;
+    }
+
     if ($con) {
         $sql_category= "SELECT category, title FROM categories;";
         $result_cat = mysqli_query($con, $sql_category);
@@ -10,7 +14,7 @@
 
         $current_user = (int)strip_tags($_SESSION["user"]["id"]);
 
-        $sql_bet = "SELECT l.id, l.title AS lot_name, c.title AS cat_name, l.img, img_alt, l.user_id as id_user_creator, price, date_end, ts
+        $sql_bet = "SELECT l.id, l.title AS lot_name, c.title AS cat_name, l.img, img_alt, l.user_id as id_user_creator, price, date_end, ts, user_win
                     FROM lots_list l
                     JOIN bet_list b
                     ON l.id=b.lot_id
@@ -52,14 +56,13 @@
             }
             else {
                 $win_user = [];
-                if (strtotime($bet["date_end"]) > $week ) {
-                    $id_last_lot_bet = (int)$bet["id"];
-                    $sql_win_user = " SELECT user_id FROM bet_list WHERE lot_id = '$id_last_lot_bet'  ORDER BY ts DESC LIMIT 1;";
-                    $result_win_user = mysqli_query($con, $sql_win_user);
-                    $win_user = ($result_win_user) ? mysqli_fetch_assoc($result_win_user) : [];
 
-                    if ($current_user === (int)$win_user["user_id"] && !empty($win_user)) {
-                        $bet["status_win"]=true;
+                if (!empty($bet["user_win"]) && (int)$bet["user_win"]==$current_user) {
+                    $bet["status_win"]=true;
+                }
+
+                if (strtotime($bet["date_end"]) > $week ) {
+                    if (!empty($bet["status_win"])) {
                         $bets_win[count($bets_win)] = $bet;
                         continue;
                     }

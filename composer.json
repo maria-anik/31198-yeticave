@@ -1,0 +1,15 @@
+{
+    "name": "maria-anik/31198-yeticave",
+    "description": "auction website",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maria Anikina",
+            "email": "maria-anik@mail.ru"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.0"
+    }
+}
