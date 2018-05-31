@@ -27,7 +27,7 @@
                         [
                             "win" => $win
                         ]);
-                    $id_win_user = (int)$win_user['user_id'];
+                    $id_win_user = (int)$win_user["user_id"];
 
 
                      // Create the Mailer using your created Transport
@@ -39,7 +39,7 @@
                     // Create a message
                     $message = (new Swift_Message('YetiCave поздравляет с победой!'))
                       ->setFrom(['keks@phpdemo.ru' => 'YetiCave'])
-                      ->setTo(['maria-anik@mail.ru' => 'Mary'])
+                      ->setTo([$win_user["email"] => $win_user["name"]])
                       ->setBody($mail_text, 'text/html')
                       ;
 
